@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -14,8 +13,11 @@ export default function Navbar() {
   return (
     <div>
       <nav className="max-w-11/12 mx-auto shadow-md px-6 py-2 md:px-4 flex items-center rounded-lg justify-between relative">
-        <h1 className="text-2xl font-bold hover:cursor-pointer" style={{ color: "#FF7A18" }}>
-          <Link href='/'>FoodHub</Link>
+        <h1
+          className="text-2xl font-bold hover:cursor-pointer"
+          style={{ color: "#FF7A18" }}
+        >
+          <Link href="/">FoodHub</Link>
         </h1>
         <div className="hidden md:flex gap-8 text-gray-600">
           <Link href="/menu">Browse Menu</Link>
@@ -27,13 +29,13 @@ export default function Navbar() {
           {!user ? (
             <>
               <Link
-                href="#"
+                href="/login"
                 className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer "
               >
                 LogIn
               </Link>
               <Link
-                href="#"
+                href="/register"
                 className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer"
               >
                 Register
@@ -56,13 +58,13 @@ export default function Navbar() {
             {!user ? (
               <>
                 <Link
-                  href="#"
+                  href="/login"
                   className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer "
                 >
                   LogIn
                 </Link>
                 <Link
-                  href="#"
+                  href="/register"
                   className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer"
                 >
                   Register
