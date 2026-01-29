@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
 const fromSchema = z.object({
   email: z.email(),
@@ -18,6 +19,12 @@ const fromSchema = z.object({
 });
 
 export default function LoginForm() {
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+      callbackURL:"http://localhost:3000"
+    });
+  };
   const form = useForm({
     defaultValues: {
       email: "",
@@ -107,7 +114,10 @@ export default function LoginForm() {
 
         <hr className="my-4" />
         <div className="flex flex-col md:flex-row justify-center gap-6">
-          <button className="flex items-center gap-2 p-2  rounded-lg cursor-pointer">
+          <button
+            className="flex items-center gap-2 p-2  rounded-lg cursor-pointer"
+            onClick={() => handleGoogleLogin()}
+          >
             <FaGoogle className="text-blue-500" /> LogIn With Google
           </button>
           <button className="flex items-center gap-2 p-2  rounded-lg cursor-pointer">
