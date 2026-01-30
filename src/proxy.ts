@@ -34,10 +34,10 @@ export async function proxy(request: NextRequest) {
   /* Customer protection */
   if (pathname.startsWith("/dashboard") && data.user.role !== Role.CUSTOMER) {
     if (data.user.role === Role.ADMIN) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
     }
     if (data.user.role === Role.PROVIDER) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/provider-dashboard", request.url));
     }
   }
 

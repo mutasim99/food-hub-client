@@ -4,23 +4,23 @@ export const adminRoutes = [
     items: [
       {
         title: "All Users",
-        url: "#",
+        url: "/admin-dashboard/allUsers",
       },
       {
-        title: "Add Category",
-        url: "#",
+        title: "Get Category",
+        url: "/admin-dashboard/getCategory",
       },
       {
         title: "Create Category",
-        url: "#",
+        url: "/admin-dashboard/createCategory",
       },
       {
         title: "Total Order",
-        url: "#",
+        url: "/admin-dashboard/totalOrders",
       },
       {
         title: "Update User",
-        url: "#",
+        url: "/admin-dashboard/updateUser",
       },
     ],
   },
