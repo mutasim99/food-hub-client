@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const fromSchema = z.object({
   email: z.email(),
@@ -19,10 +21,11 @@ const fromSchema = z.object({
 });
 
 export default function LoginForm() {
+  const router = useRouter()
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
-      callbackURL:"http://localhost:3000"
+      callbackURL: "http://localhost:3000",
     });
   };
   const form = useForm({
@@ -34,7 +37,19 @@ export default function LoginForm() {
       onSubmit: fromSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      const toastId = toast.loading("User LoggingIn");
+      try {
+        const { data, error } = await authClient.signIn.email(value);
+        if (data) {
+          router.push('/')
+        }
+        if (error) {
+          toast.error(error.message, { id: toastId });
+        }
+        toast.success("Successfully loggedIn", { id: toastId });
+      } catch (error) {
+        toast.error("Something went wrong", { id: toastId });
+      }
     },
   });
   return (

@@ -5,11 +5,16 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "./sheared/ModeToggle";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
+
+  const handleSignOut = async () => {
+    const data = await authClient.signOut();
+  };
   return (
     <div>
       <nav className="max-w-11/12 mx-auto shadow-md px-6 py-2 md:px-4 flex items-center rounded-lg justify-between relative">
@@ -42,8 +47,16 @@ export default function Navbar() {
               </Link>
             </>
           ) : (
-            <div className="flex items-center gep-2">
-              <span>{user.name}</span>
+            <div className="flex items-center space-x-2 gep-2">
+              <p>{user.name}</p>
+              <div>
+                <Button
+                  className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer"
+                  onClick={() => handleSignOut()}
+                >
+                  Signout
+                </Button>
+              </div>
             </div>
           )}
         </div>

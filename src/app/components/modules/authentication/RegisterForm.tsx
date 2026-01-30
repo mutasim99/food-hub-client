@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
-import { FaGithub, FaGoogle } from 'react-icons/fa6'
+import { FaGithub, FaGoogle } from "react-icons/fa6";
 
 import {
   Field,
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const fromSchema = z.object({
   name: z.string().min(1, "This field is required"),
@@ -19,6 +21,12 @@ const fromSchema = z.object({
 });
 
 export default function RegisterForm() {
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:3000",
+    });
+  };
   const form = useForm({
     defaultValues: {
       name: "",
@@ -29,7 +37,16 @@ export default function RegisterForm() {
       onSubmit: fromSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      const toastId = toast.loading("Creating User");
+      try {
+        const { data, error } = await authClient.signUp.email(value);
+        if (error) {
+          toast.error(error.message, { id: toastId });
+        }
+        toast.success("User created successfully", { id: toastId });
+      } catch (error) {
+        toast.error("Something went wrong", { id: toastId });
+      }
     },
   });
   return (
@@ -133,12 +150,11 @@ export default function RegisterForm() {
         <div className="flex flex-col md:flex-row justify-center gap-6">
           <button
             className="flex items-center gap-2 p-2  rounded-lg cursor-pointer"
+            onClick={() => handleGoogleLogin()}
           >
             <FaGoogle className="text-blue-500" /> LogIn With Google
           </button>
-          <button
-            className="flex items-center gap-2 p-2  rounded-lg cursor-pointer"
-          >
+          <button className="flex items-center gap-2 p-2  rounded-lg cursor-pointer">
             <FaGithub className="text-red-500" /> LogIn With Github
           </button>
         </div>
