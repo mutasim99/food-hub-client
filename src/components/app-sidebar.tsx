@@ -22,24 +22,6 @@ import { customersRoutes } from "@/routes/customer";
 import { Routes } from "@/types";
 
 // This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
 
 export function AppSidebar({
   user,
@@ -66,7 +48,7 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarContent>
-        {data.navMain.map((item) => (
+        {routes.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>

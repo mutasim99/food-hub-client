@@ -27,8 +27,13 @@ export default function Navbar() {
         <div className="hidden md:flex gap-8 text-gray-600">
           <Link href="/menu">Browse Menu</Link>
           <Link href="/restaurants">Restaurants</Link>
-          <Link href="/dashboard">Dashboard</Link>
-          {user && <Link href="#">Orders</Link>}
+
+          {user && (
+            <div className="space-x-8">
+              <Link href="#">Orders</Link>
+              <Link href="/dashboard">Dashboard</Link>
+            </div>
+          )}
         </div>
         <div className="hidden md:flex items-center gap-2">
           <ModeToggle />
