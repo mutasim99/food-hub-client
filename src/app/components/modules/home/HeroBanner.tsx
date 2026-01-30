@@ -10,7 +10,7 @@ export default function HeroBanner() {
       <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-6">
         {/* Left content */}
         <div className="space-y-6">
-          <span className="inline-block rounded-full bg-orange-50 px-4 py-1 text-sm font-medium text-orange-500">
+          <span className="inline-block rounded-full bg-orange-100 px-4 py-1 text-sm font-medium text-orange-600">
             Hungry?
           </span>
           <h1
@@ -37,7 +37,7 @@ export default function HeroBanner() {
             src={bannerImg}
             alt="banner-img"
             fill
-            className="object-cover"
+            className="object-cover rounded-md"
           />
 
           {/* Floating Card */}
