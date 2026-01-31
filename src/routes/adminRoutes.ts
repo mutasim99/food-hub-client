@@ -18,10 +18,6 @@ export const adminRoutes = [
         title: "Total Order",
         url: "/admin-dashboard/totalOrders",
       },
-      {
-        title: "Update User",
-        url: "/admin-dashboard/updateUser",
-      },
     ],
   },
 ];
