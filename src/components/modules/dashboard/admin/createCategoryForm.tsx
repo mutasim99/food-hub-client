@@ -9,11 +9,13 @@ import * as z from "zod";
 
 const formSchema = z.object({
   name: z.string().max(30),
+  image: z.url(),
 });
 export default function CreateCategoryForm() {
   const form = useForm({
     defaultValues: {
       name: "",
+      image: "",
     },
     validators: {
       onSubmit: formSchema,
@@ -21,7 +23,7 @@ export default function CreateCategoryForm() {
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Crating category...");
       try {
-        await createCategory(value.name);
+        await createCategory(value.name, value.image);
         toast.success("Category Added", { id: toastId });
       } catch (error) {
         toast.error("Something went wrong", { id: toastId });
@@ -31,6 +33,7 @@ export default function CreateCategoryForm() {
   return (
     <div className="max-w-md mx-auto space-y-4">
       <form
+        className="space-y-4"
         id="category"
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,6 +53,26 @@ export default function CreateCategoryForm() {
                   name={field.name}
                   value={field.state.value}
                   placeholder="Enter a category name"
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
+        />
+        <form.Field
+          name="image"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Category ImageURL</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  placeholder="Enter Category Image"
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}

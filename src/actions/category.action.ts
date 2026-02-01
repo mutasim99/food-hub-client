@@ -7,8 +7,11 @@ export const getCategory = async () => {
   return await categoryService.getCategory();
 };
 
-export const createCategory = async (categoryName: string) => {
-  const res = await categoryService.createCategory(categoryName);
+export const createCategory = async (
+  categoryName: string,
+  categoryImage: string
+) => {
+  const res = await categoryService.createCategory(categoryName, categoryImage);
   updateTag("categoryData");
   return res;
 };

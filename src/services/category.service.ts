@@ -17,7 +17,6 @@ export const categoryService = {
     options?: ServiceOptions
   ) {
     try {
-      const cookieStore = await cookies();
       const url = new URL(`${API_URL}/categories`);
       if (params) {
         Object.entries(params).forEach(([key, value]) => {
@@ -42,9 +41,6 @@ export const categoryService = {
       config.next = { ...config.next, tags: ["categoryName"] };
 
       const res = await fetch(url.toString(), {
-        headers: {
-          cookie: cookieStore.toString(),
-        },
         next: {
           tags: ["categoryName"],
         },
@@ -56,7 +52,7 @@ export const categoryService = {
       return { data: null, error: { message: "Something went wrong" } };
     }
   },
-  createCategory: async (categoryName: string) => {
+  createCategory: async function (categoryName: string, categoryImage: string) {
     try {
       const cookieStore = await cookies();
       const res = await fetch(`${API_URL}/categories`, {
@@ -67,6 +63,7 @@ export const categoryService = {
         },
         body: JSON.stringify({
           name: categoryName,
+          image: categoryImage,
         }),
       });
 

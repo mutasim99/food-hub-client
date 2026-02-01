@@ -1,4 +1,4 @@
-import CreateCategoryForm from './createCategoryForm'
+import CreateCategoryForm from '../../../../../components/modules/dashboard/admin/createCategoryForm'
 export default function CreateCategory() {
   return (
     <div>
