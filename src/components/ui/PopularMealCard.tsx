@@ -7,7 +7,7 @@ interface Meal {
   price: number;
   image: string;
   provider: {
-    name: string;
+    shopName: string;
   };
 }
 export default function PopularMealCard({ meals }: { meals: Meal[] }) {
@@ -35,7 +35,7 @@ export default function PopularMealCard({ meals }: { meals: Meal[] }) {
             </div>
             <div className="p-4 space-y-2">
               <h2 className="text-lg font-semibold text-white">{meal.name}</h2>
-              <p className="text-sm text-gray-400">by {meal.provider.name}</p>
+              <p className="text-sm text-gray-400">by {meal.provider.shopName}</p>
               <div className="flex items-center justify-between pt-3">
                 <span>${meal.price}</span>
                 <Button className="bg-orange-500 hover:bg-orange-600">

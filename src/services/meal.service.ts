@@ -30,4 +30,16 @@ export const MealService = {
       return { data: null, error: { message: "Something went wrong" } };
     }
   },
+  getProviderMeals: async () => {
+    try {
+      const url = new URL(`${apiUrl}/api/meals/popular`);
+      const res = await fetch(url.toString(), {
+        cache: "no-cache",
+      });
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong" } };
+    }
+  },
 };
