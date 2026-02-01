@@ -4,19 +4,15 @@ export const providerRoutes = [
     items: [
       {
         title: "Add Meal",
-        url: "#",
+        url: "/provider-dashboard/addMeal",
       },
       {
-        title: "Update Meal",
-        url: "#",
+        title: "My Meal",
+        url: "/provider-dashboard/myMeal",
       },
       {
-        title: "Orders",
-        url: "#",
-      },
-      {
-        title: "Delete Meal",
-        url: "#",
+        title: "My Orders",
+        url: "/provider-dashboard/myOrders",
       },
     ],
   },
