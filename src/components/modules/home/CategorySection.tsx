@@ -15,7 +15,7 @@ export default async function CategorySection() {
       <h2 className="text-center text-2xl font-bold mb-8">
         Browse By Category
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category}></CategoryCard>
         ))}
