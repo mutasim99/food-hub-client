@@ -1,5 +1,6 @@
+import Navbar from "@/components/sheared/Navbar";
 import React from "react";
-import Navbar from "../components/Navbar";
+
 
 export default function CommonLayout({
   children,

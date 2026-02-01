@@ -1,5 +1,5 @@
 import registerBg from '@/../public/assets/AuthImage/loginbg.jpg'
-import RegisterForm from "@/app/components/modules/authentication/RegisterForm";
+import RegisterForm from '@/components/modules/authentication/RegisterForm';
 
 export default function RegisterPage() {
   return (

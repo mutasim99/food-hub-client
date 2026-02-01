@@ -18,7 +18,7 @@ export default async function GetCategory() {
         </Link>
       </div>
       <div>
-      <CategoryTable category={data.data} />
+        <CategoryTable category={data.data} />
       </div>
     </div>
   );

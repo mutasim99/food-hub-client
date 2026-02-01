@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { ModeToggle } from "./sheared/ModeToggle";
+import { ModeToggle } from "../../components/sheared/ModeToggle";
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {

@@ -1,5 +1,5 @@
 import loginBg from '@/../public/assets/AuthImage/loginbg.jpg'
-import LoginForm from '@/app/components/modules/authentication/LoginForm'
+import LoginForm from '@/components/modules/authentication/LoginForm'
 
 export default function LoginInPage() {
   return (
