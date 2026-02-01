@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import CreateMealForm from "./CreateMealForm";
+import CreateMealForm from "../../../../../components/modules/dashboard/providerDashboard/CreateMealForm";
 
 const apiUrl = env.BACKEND_URL;
 export default async function AddMeal() {
