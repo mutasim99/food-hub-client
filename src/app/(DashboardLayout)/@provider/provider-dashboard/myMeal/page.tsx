@@ -8,7 +8,7 @@ export default async function TotalMeal() {
   return (
     <div>
       <h2>Meal that i add</h2>
-      <ProviderMealTable meals={data.data} />
+      <ProviderMealTable meals={data.data??[]} />
     </div>
   );
 }
