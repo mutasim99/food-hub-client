@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const fromSchema = z.object({
   name: z.string().min(1, "This field is required"),
@@ -21,6 +22,7 @@ const fromSchema = z.object({
 });
 
 export default function RegisterForm() {
+  const router = useRouter()
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
@@ -40,8 +42,12 @@ export default function RegisterForm() {
       const toastId = toast.loading("Creating User");
       try {
         const { data, error } = await authClient.signUp.email(value);
+        
         if (error) {
           toast.error(error.message, { id: toastId });
+        }
+        if (data) {
+          router.push('/')
         }
         toast.success("User created successfully", { id: toastId });
       } catch (error) {

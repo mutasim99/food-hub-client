@@ -25,7 +25,7 @@ export default function Navbar() {
           <Link href="/">FoodHub</Link>
         </h1>
         <div className="hidden md:flex gap-8 text-gray-600">
-          <Link href="/menu">Browse Menu</Link>
+          <Link href="/">Home</Link>
           <Link href="/restaurants">Restaurants</Link>
 
           {user && (
