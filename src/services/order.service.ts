@@ -49,6 +49,7 @@ export const orderServices = {
       },
       cache: "no-cache",
     });
-    return res.json();
+    const json= await res.json();
+    return {data:json.data, error:null}
   },
 };
