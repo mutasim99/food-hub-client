@@ -13,3 +13,7 @@ export const getMyOrder = async () => {
 export const getOrderById = async (id: string) => {
   return await orderServices.getOrderById(id);
 };
+
+export const cancelOrder = async (id: string) => {
+  return await orderServices.cancelOrder(id);
+};

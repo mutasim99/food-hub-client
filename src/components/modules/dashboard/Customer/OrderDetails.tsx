@@ -1,9 +1,23 @@
+'use client'
+import { cancelOrder } from "@/actions/order.action";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
-import React from "react";
+import { toast } from "sonner";
 
 export default function CustomerOrderDetails({ order }: { order: any }) {
+  const isDisable =
+    order.status === "DELIVERED" || order.status === "CANCELLED";
+  const handleCancel = async () => {
+    const toastId = toast.loading("Cancelling order...");
+    try {
+      await cancelOrder(order.id);
+      toast.success("Orders cancelled", { id: toastId });
+    } catch (error) {
+      toast.error("cancelled failed", { id: toastId });
+    }
+  };
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -26,6 +40,14 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
         >
           {order.status}
         </Badge>
+        <Button
+          variant="destructive"
+          disabled={isDisable}
+          onClick={handleCancel}
+          className="hover:cursor-pointer"
+        >
+          Cancel Order
+        </Button>
       </div>
       {/* info sections */}
       <div className="grid md:grid-cols-2 gap-6">
