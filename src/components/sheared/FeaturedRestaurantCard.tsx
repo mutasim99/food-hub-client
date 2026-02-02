@@ -18,7 +18,7 @@ export default function FeaturedRestaurantCard({
 }: {
   providers: Restaurant[];
 }) {
-    console.log(providers);
+    
     
   return (
     <section className=" py-20 max-w-7xl mx-auto">

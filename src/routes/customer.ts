@@ -4,7 +4,7 @@ export const customersRoutes = [
     items: [
       {
         title: "My Order",
-        url: "#",
+        url: "/dashboard/my-order",
       },
       {
         title: "Become a Provider",

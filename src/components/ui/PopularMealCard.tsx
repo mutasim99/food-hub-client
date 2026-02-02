@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./button";
+import OrderModal from "../modules/order/OrderModal";
 interface Meal {
   id: string;
   name: string;
@@ -11,6 +13,11 @@ interface Meal {
   };
 }
 export default function PopularMealCard({ meals }: { meals: Meal[] }) {
+  const [open, setOpen] = useState(false);
+  const [selectMeal, setSelectMeal] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   return (
     <div className="px-6 md:px-16 py-20">
       <div className="text-center mb-12">
@@ -35,12 +42,25 @@ export default function PopularMealCard({ meals }: { meals: Meal[] }) {
             </div>
             <div className="p-4 space-y-2">
               <h2 className="text-lg font-semibold text-white">{meal.name}</h2>
-              <p className="text-sm text-gray-400">by {meal.provider.shopName}</p>
+              <p className="text-sm text-gray-400">
+                by {meal.provider.shopName}
+              </p>
               <div className="flex items-center justify-between pt-3">
                 <span>${meal.price}</span>
-                <Button className="bg-orange-500 hover:bg-orange-600">
+                <Button
+                  className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
+                  onClick={() => {
+                    setSelectMeal({ id: meal.id, name: meal.name });
+                    setOpen(true);
+                  }}
+                >
                   Order
                 </Button>
+                <OrderModal
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  meal={selectMeal}
+                />
               </div>
             </div>
           </div>
