@@ -8,7 +8,7 @@ export const customersRoutes = [
       },
       {
         title: "Become a Provider",
-        url: "#",
+        url: "/dashboard/becomeProvider",
       },
     ],
   },
