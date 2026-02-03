@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { userService } from "./services/user.service";
+import { getSession } from "./actions/user.action";
 import { Role } from "./constants/Role";
-
 export async function proxy(request: NextRequest) {
   let isAuthenticated = false;
   let isAdmin = false;
   let isProvider = false;
   const pathname = request.nextUrl.pathname;
 
-  const { data } = await userService.getSession();
+  const { data } = await getSession();
 
 
   if (data) {
@@ -16,6 +15,7 @@ export async function proxy(request: NextRequest) {
     isAdmin = data.user.role === Role.ADMIN;
     isProvider = data.user.role === Role.PROVIDER;
   }
+  const sessionToken = request.cookies.get("better-auth.session_token");
 
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -34,10 +34,10 @@ export async function proxy(request: NextRequest) {
   /* Customer protection */
   if (pathname.startsWith("/dashboard") && data.user.role !== Role.CUSTOMER) {
     if (data.user.role === Role.ADMIN) {
-      return NextResponse.redirect(new URL("/admin-dashboard/allUsers", request.url));
+      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
     }
     if (data.user.role === Role.PROVIDER) {
-      return NextResponse.redirect(new URL("/provider-dashboard/myMeal", request.url));
+      return NextResponse.redirect(new URL("/provider-dashboard", request.url));
     }
   }
 

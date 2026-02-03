@@ -1,5 +1,4 @@
 import { env } from "@/env";
-import { getCookieHeader } from "@/lib/forwardCookies";
 import { cookies } from "next/headers";
 
 export interface CreateMealData {
@@ -15,12 +14,12 @@ export const MealService = {
   createMeal: async function (payload: CreateMealData) {
     try {
       const url = new URL(`${apiUrl}/api/add-meals`);
-      const cookieHeader = await getCookieHeader();
+      const cookieStore = await cookies()
       const res = await fetch(url.toString(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Cookie: cookieHeader,
+          Cookie: cookieStore.toString(),
         },
         body: JSON.stringify(payload),
       });

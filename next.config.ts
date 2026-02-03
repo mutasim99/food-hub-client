@@ -4,12 +4,23 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'i.ibb.co.com',
-        pathname:"/**"
+        protocol: "https",
+        hostname: "i.ibb.co.com",
+        pathname: "/**",
       },
     ],
   },
+
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source:'/api/auth/:path*',
+  //       destination:`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/:path*`
+  //     }
+  //   ]
+  // },
 };
+
+
 
 export default nextConfig;

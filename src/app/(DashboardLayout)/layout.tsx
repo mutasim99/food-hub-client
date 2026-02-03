@@ -14,15 +14,15 @@ export default async function DashboardLayout({
 }) {
   const res = await userService.getSession();
   const userInfo = res.data;
-
+    
   return (
     <SidebarProvider>
-      <AppSidebar user={userInfo.user} />
+      <AppSidebar user={userInfo?.user} />
       <SidebarInset>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {userInfo.user.role === Role.ADMIN
+          {userInfo?.user?.role === Role.ADMIN
             ? admin
-            : userInfo.user.role === Role.PROVIDER
+            : userInfo?.user?.role === Role.PROVIDER
             ? provider
             : customer}
         </div>

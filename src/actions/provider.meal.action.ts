@@ -8,3 +8,7 @@ export const getMyMeals = async () => {
 export const deleteMyMeals = async (id: string) => {
   return await ProviderMealService.deleteMyMeals(id);
 };
+
+export const getProviderOrder = async () => {
+  return await ProviderMealService.getProviderOrders();
+};

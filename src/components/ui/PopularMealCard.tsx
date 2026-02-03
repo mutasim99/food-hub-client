@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "./button";
 import OrderModal from "../modules/order/OrderModal";
+import { authClient } from "@/lib/auth-client";
 interface Meal {
   id: string;
   name: string;
@@ -13,6 +14,7 @@ interface Meal {
   };
 }
 export default function PopularMealCard({ meals }: { meals: Meal[] }) {
+ 
   const [open, setOpen] = useState(false);
   const [selectMeal, setSelectMeal] = useState<{
     id: string;

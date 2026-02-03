@@ -9,7 +9,7 @@ export default async function FeaturedRestaurant() {
 
   return (
     <div>
-      <FeaturedRestaurantCard providers={data.data} />
+      <FeaturedRestaurantCard providers={data.data ||[]} />
     </div>
   );
 }

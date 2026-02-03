@@ -40,11 +40,13 @@ export default function LoginForm() {
       const toastId = toast.loading("User LoggingIn");
       try {
         const { data, error } = await authClient.signIn.email(value);
-        if (data) {
-          router.push('/')
-        }
+        
         if (error) {
           toast.error(error.message, { id: toastId });
+          return
+        }
+        if (data) {
+          router.push('/')
         }
         toast.success("Successfully loggedIn", { id: toastId });
       } catch (error) {
