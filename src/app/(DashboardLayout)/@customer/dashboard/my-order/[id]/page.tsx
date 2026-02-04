@@ -8,10 +8,14 @@ export default async function OrderDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { data } = await getOrderById(id);
+  const res = await getOrderById(id);
+  const order = res?.data ||[]
+  if (!order) {
+    return <h2 className="text-xl mt-10">Order not found</h2>
+  }
   return (
     <div>
-      <CustomerOrderDetails order={data} />
+      <CustomerOrderDetails order={order} />
     </div>
   );
 }

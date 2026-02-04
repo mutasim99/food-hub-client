@@ -7,6 +7,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 export default function CustomerOrderDetails({ order }: { order: any }) {
+  
   const isDisable =
     order.status === "DELIVERED" || order.status === "CANCELLED";
   const handleCancel = async () => {
