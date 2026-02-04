@@ -1,8 +1,9 @@
 "use client";
-import { getCart } from "@/actions/cart.action";
+import { getCart, removeFromCart } from "@/actions/cart.action";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { X } from "lucide-react";
 
 export default function CartDrawer({ open, onClose }: any) {
   const [cart, setCart] = useState<any[]>([]);
@@ -40,10 +41,21 @@ export default function CartDrawer({ open, onClose }: any) {
                 {item.qty} x {item.meal.price}
               </p>
             </div>
+            <div>
+              <button
+                onClick={async () => {
+                  const res = await removeFromCart(item.id);
+                  window.location.reload();
+                }}
+                className="text-red-500 hover:text-red-700 cursor-pointer"
+              >
+                <X />
+              </button>
+            </div>
           </div>
         ))}
         <div className="mt-4 border-t-2 pt-4">
-            <p className="text-white font-semibold">Total:${total}</p>
+          <p className="text-white font-semibold">Total:${total}</p>
         </div>
         <Button className="w-full mt-6 bg-orange-500">checkout</Button>
       </div>

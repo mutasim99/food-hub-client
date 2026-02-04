@@ -55,7 +55,7 @@ export default function Navbar() {
         </div>
         <div className="hidden md:flex items-center gap-2">
           <button onClick={() => setCartOpen(true)} className="relative">
-            <ShoppingCart />
+            <ShoppingCart className="hover:cursor-pointer" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-sm w-5 h-5 flex justify-center items-center rounded-full">
                 {cartCount}

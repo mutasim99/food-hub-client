@@ -53,4 +53,22 @@ export const cartService = {
     });
     return res.json();
   },
+
+  removeFromCart: async function (itemId: string) {
+    const url = new URL(`${apiUrl}/cart-item/${itemId}`);
+    const cookieStore = await cookies();
+    const res = await fetch(url.toString(), {
+      method: "DELETE",
+      headers: {
+        cookie: cookieStore.toString(),
+      },
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      throw new Error(json.error || "Failed to remove items");
+    }
+
+    return json.data;
+  },
 };

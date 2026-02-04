@@ -9,3 +9,7 @@ export const addToCart = async (mealId: string, qty = 1) => {
 export const getCart = async () => {
   return await cartService.getCart();
 };
+
+export const removeFromCart = async (itemId: string) => {
+  return await cartService.removeFromCart(itemId);
+};
