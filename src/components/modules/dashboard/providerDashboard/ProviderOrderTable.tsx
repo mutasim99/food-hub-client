@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import UpdateOrderStatusButton from "./UpdateOrderStatusButton";
 
  const status = ["PLACED","PREPARING","READY","DELIVERED","CANCELLED"]
 
@@ -23,19 +24,19 @@ export default function ProviderOrderForm({ order }: any) {
             <TableHead>Customer name</TableHead>
             <TableHead>Address</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {order.map((ord:any) => (
             
             
-            <TableRow>
+            <TableRow key={ord.id}>
               <TableCell>{ord.items[0].meal.name}</TableCell>
               <TableCell>{ord.items[0].qty}</TableCell>
               <TableCell>{ord.total}</TableCell>
               <TableCell>{ord.customer.name}</TableCell>
               <TableCell>{ord.address}</TableCell>
-              <TableCell>{ord.status}</TableCell>
               {/* Change Status */}
               <TableCell>
                 <Select
@@ -54,6 +55,7 @@ export default function ProviderOrderForm({ order }: any) {
                   </SelectContent>
                 </Select>
               </TableCell>
+              <TableCell> <UpdateOrderStatusButton order={ord} /> </TableCell>
             </TableRow>
           ))}
         </TableBody>

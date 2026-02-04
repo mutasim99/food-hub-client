@@ -1,16 +1,34 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingBag, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModeToggle } from "../../components/sheared/ModeToggle";
 import { Button } from "@/components/ui/button";
+import CartDrawer from "./CartDrawer";
+import { getCart } from "@/actions/cart.action";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
+
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    getCart()
+      .then((res) => {
+        const items = res.data?.items || [];
+
+        const total = items.reduce((sum: number, item: any) => sum + item.qty, 0);
+        setCartCount(total);
+      })
+      .catch(() => {
+        setCartCount(0);
+      });
+  }, []);
 
   const handleSignOut = async () => {
     const data = await authClient.signOut();
@@ -36,6 +54,14 @@ export default function Navbar() {
           )}
         </div>
         <div className="hidden md:flex items-center gap-2">
+          <button onClick={() => setCartOpen(true)} className="relative">
+            <ShoppingCart />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-sm w-5 h-5 flex justify-center items-center rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </button>
           <ModeToggle />
           {!user ? (
             <>
@@ -97,6 +123,7 @@ export default function Navbar() {
           </div>
         )}
       </nav>
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

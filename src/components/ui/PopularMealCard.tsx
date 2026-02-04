@@ -1,9 +1,11 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "./button";
 import OrderModal from "../modules/order/OrderModal";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { addToCart } from "@/actions/cart.action";
 interface Meal {
   id: string;
   name: string;
@@ -14,7 +16,8 @@ interface Meal {
   };
 }
 export default function PopularMealCard({ meals }: { meals: Meal[] }) {
- 
+  const session = authClient.useSession();
+
   const [open, setOpen] = useState(false);
   const [selectMeal, setSelectMeal] = useState<{
     id: string;
@@ -49,15 +52,34 @@ export default function PopularMealCard({ meals }: { meals: Meal[] }) {
               </p>
               <div className="flex items-center justify-between pt-3">
                 <span>${meal.price}</span>
+                <div className="flex gap-4">
                 <Button
                   className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
                   onClick={() => {
+                    if (!session.data?.user) {
+                      return toast.error("Please logIn to order food");
+                    }
                     setSelectMeal({ id: meal.id, name: meal.name });
                     setOpen(true);
                   }}
                 >
                   Order
                 </Button>
+                <Button 
+                className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
+                onClick={async()=>{
+                  
+                  try {
+                    const res = await addToCart(meal.id, 1)
+                    toast.success("Add to the cart🛒")
+                  } catch (e:any) {
+                    toast.error(e.message)
+                  }
+                }}
+                >
+                  Add to cart
+                </Button>
+                </div>
                 <OrderModal
                   open={open}
                   onClose={() => setOpen(false)}

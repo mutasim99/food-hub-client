@@ -1,5 +1,5 @@
 import { getProviderOrder } from "@/actions/provider.meal.action";
-import ProviderOrderForm from "@/components/modules/dashboard/providerDashboard/ProviderOrderForm";
+import ProviderOrderForm from "@/components/modules/dashboard/providerDashboard/ProviderOrderTable";
 import React from "react";
 
 export default async function MyOrders() {
@@ -12,7 +12,7 @@ export default async function MyOrders() {
       <h2 className="text-2xl font-bold text-center">
         Here is Your <span className="text-orange-500">Order</span>{" "}
       </h2>
-      <ProviderOrderForm order={data.data} />
+      <ProviderOrderForm order={data.data ||[]} />
     </div>
   );
 }

@@ -53,4 +53,26 @@ export const ProviderMealService = {
       return { data: null, error: { message: "something went wrong" } };
     }
   },
+  updateProviderOrders: async function (orderId: string, status: string) {
+    try {
+      const cookieStore = await cookies();
+
+      const url = new URL(`${apiUrl}/provider-orders/${orderId}/status`);
+      const res = await fetch(url.toString(), {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { data: null, error: data.error || "Update failed" };
+      }
+      return { data: data.data, error: null };
+    } catch (error) {
+      return {data:null, error:"Something went wrong"}
+    }
+  },
 };

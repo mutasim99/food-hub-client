@@ -1,6 +1,5 @@
 import { getOrderById } from "@/actions/order.action";
 import CustomerOrderDetails from "@/components/modules/dashboard/Customer/OrderDetails";
-import React from "react";
 
 export default async function OrderDetails({
   params,

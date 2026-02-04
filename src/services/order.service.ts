@@ -24,6 +24,9 @@ export const orderServices = {
         body: JSON.stringify(orderData),
       });
       const data = await res.json();
+      if (!res.ok) {
+        return { data: null, error: data.error || "Order failed" };
+      }
       return { data: data.data, error: null };
     } catch (error) {
       return { data: null, error: { message: "Something went wrong" } };

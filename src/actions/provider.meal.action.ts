@@ -12,3 +12,10 @@ export const deleteMyMeals = async (id: string) => {
 export const getProviderOrder = async () => {
   return await ProviderMealService.getProviderOrders();
 };
+
+export const updateProviderOrderStatus = async (
+  orderId: string,
+  status: string
+) => {
+  return await ProviderMealService.updateProviderOrders(orderId, status);
+};
