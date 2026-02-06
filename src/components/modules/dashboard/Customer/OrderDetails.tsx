@@ -1,13 +1,13 @@
-'use client'
+"use client";
 import { cancelOrder } from "@/actions/order.action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
+import ReviewForm from "../../home/ReviewForm";
 
 export default function CustomerOrderDetails({ order }: { order: any }) {
-  
   const isDisable =
     order.status === "DELIVERED" || order.status === "CANCELLED";
   const handleCancel = async () => {
@@ -85,7 +85,12 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
                     </p>
                   </div>
                 </div>
-                <p>{item.price * item.qty}</p>
+                <p>{item.price * item.qty} tk</p>
+                {order.status === "DELIVERED" && (
+                  <Card>
+                    <ReviewForm mealId={item.meal.id} />
+                  </Card>
+                )}
               </div>
             ))}
           </div>

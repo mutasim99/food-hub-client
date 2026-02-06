@@ -22,7 +22,10 @@ export default function Navbar() {
       .then((res) => {
         const items = res.data?.items || [];
 
-        const total = items.reduce((sum: number, item: any) => sum + item.qty, 0);
+        const total = items.reduce(
+          (sum: number, item: any) => sum + item.qty,
+          0
+        );
         setCartCount(total);
       })
       .catch(() => {
@@ -44,7 +47,8 @@ export default function Navbar() {
         </h1>
         <div className="hidden md:flex gap-8 text-gray-600">
           <Link href="/">Home</Link>
-          <Link href="/restaurants">Restaurants</Link>
+          <Link href="/meals">Browse Meal</Link>
+          <Link href="/providers">Restaurants</Link>
 
           {user && (
             <div className="space-x-8">

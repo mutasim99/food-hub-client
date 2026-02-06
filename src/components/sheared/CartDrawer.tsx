@@ -25,7 +25,7 @@ export default function CartDrawer({ open, onClose }: any) {
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <h2 className="text-xl font-bold mb-4">Your Cart</h2>
+        <h2 className="text-xl font-bold mb-4">My Cart</h2>
         {cart.map((item) => (
           <div key={item.id} className="flex gap-3 mb-4">
             <Image

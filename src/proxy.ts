@@ -15,7 +15,6 @@ export async function proxy(request: NextRequest) {
     isAdmin = data.user.role === Role.ADMIN;
     isProvider = data.user.role === Role.PROVIDER;
   }
-  const sessionToken = request.cookies.get("better-auth.session_token");
 
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
