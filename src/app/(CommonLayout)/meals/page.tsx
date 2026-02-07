@@ -1,18 +1,30 @@
 import { getCategory } from "@/actions/category.action";
 import { getMeals } from "@/actions/public.action";
 import MealCard from "@/components/public/MealCard";
-import { Button } from "@/components/ui/button";
+import MealFilter from "@/components/public/MealFilter";
 import { UtensilsCrossed } from "lucide-react";
 import React from "react";
 
-export default async function MenuPage({ searchParams }: any) {
+export default async function MenuPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    categoryId?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  }>;
+}) {
   const res = await getCategory();
   const categories = res.data.data || [];
-
-  const meals = await getMeals(searchParams);
+  const filters = await searchParams;
+  const meals = await getMeals({
+    categoryId: filters.categoryId,
+    minPrice: filters.minPrice,
+    maxPrice: filters.maxPrice,
+  });
 
   return (
-    <div className="min-h-screen bg-[#050505] relative overflow-hidden">
+    <div className="min-h-screen  relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] -z-10" />
 
@@ -45,6 +57,9 @@ export default async function MenuPage({ searchParams }: any) {
               </button>
             ))}
           </div>
+        </div>
+        <div className="flex max-w-2xl items-center justify-end mb-4">
+          <MealFilter categories={categories}/>
         </div>
         {meals.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
