@@ -2,35 +2,44 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "./actions/user.action";
 import { Role } from "./constants/Role";
 export async function proxy(request: NextRequest) {
-  let isAuthenticated = false;
-  let isAdmin = false;
-  let isProvider = false;
+  // let isAuthenticated = false;
+  // let isAdmin = false;
+  // let isProvider = false;
   const pathname = request.nextUrl.pathname;
 
   const { data } = await getSession();
 
+  // if (data) {
+  //   isAuthenticated = true;
+  //   isAdmin = data.user.role === Role.ADMIN;
+  //   isProvider = data.user.role === Role.PROVIDER;
+  // }
 
-  if (data) {
-    isAuthenticated = true;
-    isAdmin = data.user.role === Role.ADMIN;
-    isProvider = data.user.role === Role.PROVIDER;
-  }
-
-  if (!isAuthenticated) {
+  if (!data) {
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+  /* Customer protection  */
+  if (pathname === "/dashboard" && data.user.role === Role.CUSTOMER) {
+    return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
   }
 
   /* Admin protection */
-  if (pathname.startsWith("/admin-dashboard") && data.user.role !== Role.ADMIN) {
+  if (
+    pathname.startsWith("/admin-dashboard") &&
+    data.user.role !== Role.ADMIN
+  ) {
     return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
   }
 
   /* Provider protection */
-  if (pathname.startsWith("/provider-dashboard") && data.user.role !== Role.PROVIDER) {
+  if (
+    pathname.startsWith("/provider-dashboard") &&
+    data.user.role !== Role.PROVIDER
+  ) {
     return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
   }
 
-  /* Customer protection */
+  /* cross role protection*/
   if (pathname.startsWith("/dashboard") && data.user.role !== Role.CUSTOMER) {
     if (data.user.role === Role.ADMIN) {
       return NextResponse.redirect(new URL("/admin-dashboard", request.url));
@@ -40,7 +49,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {

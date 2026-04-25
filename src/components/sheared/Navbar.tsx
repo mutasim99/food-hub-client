@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Menu, ShoppingBag, ShoppingCart, X } from "lucide-react";
+import { Menu,ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "../../components/sheared/ModeToggle";

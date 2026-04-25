@@ -74,13 +74,13 @@ export default function MealFilter({
       <div className="flex gap-2">
         <button
           onClick={filter}
-          className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition"
+          className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition cursor-pointer"
         >
           Apply
         </button>
         <button
           onClick={resetFilter}
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition"
+          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition cursor-pointer"
         >
           Reset
         </button>

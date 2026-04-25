@@ -1,8 +1,8 @@
 import { getMealsById } from "@/actions/public.action";
+import OrderButton from "@/components/modules/order/OrderButton";
 import { ChevronLeft, Clock, MapPin, ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 export default async function MealDetails({
   params,
@@ -80,9 +80,10 @@ export default async function MealDetails({
                     ৳{meal.price.toFixed(2)}
                   </p>
                 </div>
-                <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-110 shadow-lg shadow-orange-500/20 hover:cursor-pointer">
+                {/* <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-110 shadow-lg shadow-orange-500/20 hover:cursor-pointer">
                   <ShoppingBag className="w-5 h-5" /> Order Now
-                </button>
+                </button> */}
+                <OrderButton meal={meal} />
               </section>
             </div>
           </div>
