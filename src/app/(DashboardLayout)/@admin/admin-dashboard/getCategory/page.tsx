@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 
 export default async function GetCategory() {
   const { data } = await getCategory();
+  const categories = data?.data || [];
 
   return (
     <div className="w-full px-6 mx-auto mt-2">
@@ -18,7 +19,7 @@ export default async function GetCategory() {
         </Link>
       </div>
       <div>
-        <CategoryTable category={data.data} />
+        <CategoryTable category={categories} />
       </div>
     </div>
   );

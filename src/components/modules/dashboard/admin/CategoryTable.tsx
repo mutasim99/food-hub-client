@@ -17,7 +17,6 @@ interface MealCategoryProps {
 }
 
 export default function CategoryTable({ category }: MealCategoryProps) {
-
   return (
     <div>
       <Table className="border-4 rounded-md ">
@@ -29,12 +28,20 @@ export default function CategoryTable({ category }: MealCategoryProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {category.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.id}</TableCell>
-              <TableCell>{item.name}</TableCell>
+          {category.length ? (
+            category.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.name}</TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={2} className="text-center py-6 text-gray-500">
+                No categories found
+              </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </div>

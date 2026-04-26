@@ -21,7 +21,7 @@ const fromSchema = z.object({
 });
 
 export default function LoginForm() {
-  const router = useRouter()
+  const router = useRouter();
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
@@ -40,13 +40,13 @@ export default function LoginForm() {
       const toastId = toast.loading("User LoggingIn");
       try {
         const { data, error } = await authClient.signIn.email(value);
-        
+
         if (error) {
           toast.error(error.message, { id: toastId });
-          return
+          return;
         }
         if (data) {
-          router.push('/')
+          router.push("/");
         }
         toast.success("Successfully loggedIn", { id: toastId });
       } catch (error) {
@@ -135,10 +135,10 @@ export default function LoginForm() {
             className="flex items-center gap-2 p-2  rounded-lg cursor-pointer"
             onClick={() => handleGoogleLogin()}
           >
-            <FaGoogle className="text-blue-500" /> LogIn With Google
+            <FaGoogle className="text-blue-500" /> Login with Google
           </button>
           <button className="flex items-center gap-2 p-2  rounded-lg cursor-pointer">
-            <FaGithub className="text-red-500" /> LogIn With Github
+            <FaGithub className="text-red-500" /> Login with GitHub
           </button>
         </div>
       </div>

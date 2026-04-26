@@ -2,7 +2,13 @@
 import { updateProviderOrderStatus } from "@/actions/provider.meal.action";
 import { toast } from "sonner";
 const flow = ["PLACED", "PREPARING", "READY", "DELIVERED"];
-export default function UpdateOrderStatusButton({ order }: { order: any }) {
+export default function UpdateOrderStatusButton({
+  order,
+  nextStatus,
+}: {
+  order: any;
+  nextStatus?: string;
+}) {
   if (!order || !order.status) {
     return <span className="text-red-400">Invalid</span>;
   }
@@ -14,7 +20,13 @@ export default function UpdateOrderStatusButton({ order }: { order: any }) {
     return <span className="text-gray-400">Locked</span>;
   }
 
-  const next = flow[index +1]
+  const computedNext = flow[index + 1];
+  const next = nextStatus && flow.includes(nextStatus) ? nextStatus : computedNext;
+
+  if (flow.indexOf(next) <= index) {
+    return <span className="text-gray-400">Locked</span>;
+  }
+
   return (
     <div>
       <button
@@ -29,7 +41,7 @@ export default function UpdateOrderStatusButton({ order }: { order: any }) {
         }}
         className="px-3 py-1 bg-orange-500 text-white rounded-lg"
       >
-        Mark {next}
+        Update to {next}
       </button>
     </div>
   );

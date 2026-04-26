@@ -8,20 +8,21 @@ import { toast } from "sonner";
 import ReviewForm from "../../home/ReviewForm";
 
 export default function CustomerOrderDetails({ order }: { order: any }) {
-  const isDisable =
+  const isDisabled =
     order.status === "DELIVERED" || order.status === "CANCELLED";
+
   const handleCancel = async () => {
     const toastId = toast.loading("Cancelling order...");
     try {
       await cancelOrder(order.id);
-      toast.success("Orders cancelled", { id: toastId });
+      toast.success("Order cancelled", { id: toastId });
     } catch (error) {
-      toast.error("cancelled failed", { id: toastId });
+      toast.error("Cancel failed", { id: toastId });
     }
   };
+
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex flex-col md:flex-row justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">Order #{order.id}</h2>
@@ -34,7 +35,7 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
           variant={
             order.status === "DELIVERED"
               ? "secondary"
-              : order.status === "CANCELED"
+              : order.status === "CANCELLED"
               ? "destructive"
               : "outline"
           }
@@ -43,14 +44,14 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
         </Badge>
         <Button
           variant="destructive"
-          disabled={isDisable}
+          disabled={isDisabled}
           onClick={handleCancel}
           className="hover:cursor-pointer"
         >
           Cancel Order
         </Button>
       </div>
-      {/* info sections */}
+
       <div className="grid md:grid-cols-2 gap-6">
         <Card className="p-5 space-y-2">
           <h3 className="text-sm text-gray-400">Delivery Address</h3>
@@ -58,19 +59,19 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
         </Card>
         <Card className="p-5 space-y-2">
           <h3 className="text-sm text-gray-400">Order Total</h3>
-          <p className="font-medium">৳{order.total}</p>
+          <p className="font-medium">Tk {order.total}</p>
         </Card>
-        {/* Items */}
-        <Card className="p-6">
+
+        <Card className="p-6 md:col-span-2">
           <h3 className="text-lg font-semibold mb-4">Ordered Items</h3>
           <div className="space-y-4">
             {order.items.map((item: any) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between border-b-2 pb-4"
+                className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b-2 pb-4"
               >
                 <div className="flex items-center gap-4">
-                  <div className="relative w-15 h-16 rounded-md overflow-hidden">
+                  <div className="relative w-16 h-16 rounded-md overflow-hidden">
                     <Image
                       src={item.meal.image}
                       alt={item.meal.name}
@@ -81,16 +82,18 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
                   <div>
                     <p className="font-semibold">{item.meal.name}</p>
                     <p className="text-sm text-gray-500">
-                      ৳{item.meal.price} x {item.qty}
+                      Tk {item.meal.price} x {item.qty}
                     </p>
                   </div>
                 </div>
-                <p>{item.price * item.qty} tk</p>
-                {order.status === "DELIVERED" && (
-                  <Card>
-                    <ReviewForm mealId={item.meal.id} />
-                  </Card>
-                )}
+                <div className="flex items-center gap-4">
+                  <p>Tk {item.price * item.qty}</p>
+                  {order.status === "DELIVERED" && (
+                    <Card>
+                      <ReviewForm mealId={item.meal.id} />
+                    </Card>
+                  )}
+                </div>
               </div>
             ))}
           </div>

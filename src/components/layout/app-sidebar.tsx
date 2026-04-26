@@ -1,14 +1,11 @@
 import * as React from "react";
 
-import { SearchForm } from "@/components/layout/search-form";
-import { VersionSwitcher } from "@/components/layout/version-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -20,6 +17,7 @@ import { adminRoutes } from "@/routes/adminRoutes";
 import { providerRoutes } from "@/routes/providerRoutes";
 import { customersRoutes } from "@/routes/customer";
 import { Routes } from "@/types";
+import { LogOut, UserRoundPen } from "lucide-react";
 
 // This is sample data.
 
@@ -48,6 +46,7 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarContent>
+        <div className="flex-1">
         {routes.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
@@ -64,6 +63,24 @@ export function AppSidebar({
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        </div>
+
+        {/* Bottom section */}
+        <div className="mt-auto border-t p-2">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href="/profile"><UserRoundPen /> My Profile</Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton>
+              <LogOut /> Sign Out
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </div>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

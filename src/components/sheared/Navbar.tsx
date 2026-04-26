@@ -1,23 +1,29 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Menu,ShoppingCart, X } from "lucide-react";
+import { Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "../../components/sheared/ModeToggle";
 import { Button } from "@/components/ui/button";
 import CartDrawer from "./CartDrawer";
 import { getCart } from "@/actions/cart.action";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  const pathname = usePathname();
 
   const [cartOpen, setCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
+    if (!user) {
+      setCartCount(0);
+      return;
+    }
     getCart()
       .then((res) => {
         const items = res.data?.items || [];
@@ -31,10 +37,10 @@ export default function Navbar() {
       .catch(() => {
         setCartCount(0);
       });
-  }, []);
+  }, [user, cartOpen, pathname]);
 
   const handleSignOut = async () => {
-    const data = await authClient.signOut();
+    await authClient.signOut();
   };
   return (
     <div>
@@ -47,12 +53,13 @@ export default function Navbar() {
         </h1>
         <div className="hidden md:flex gap-8 text-gray-600">
           <Link href="/">Home</Link>
-          <Link href="/meals">Browse Meal</Link>
+          <Link href="/meals">Browse Meals</Link>
           <Link href="/providers">Restaurants</Link>
 
           {user && (
             <div className="space-x-8">
-              <Link href="#">Orders</Link>
+              <Link href="/orders">Orders</Link>
+              <Link href="/profile">Profile</Link>
               <Link href="/dashboard">Dashboard</Link>
             </div>
           )}
@@ -73,7 +80,7 @@ export default function Navbar() {
                 href="/login"
                 className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer "
               >
-                LogIn
+                Login
               </Link>
               <Link
                 href="/register"
@@ -83,14 +90,14 @@ export default function Navbar() {
               </Link>
             </>
           ) : (
-            <div className="flex items-center space-x-2 gep-2">
+            <div className="flex items-center space-x-2">
               <p>{user.name}</p>
               <div>
                 <Button
                   className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer"
                   onClick={() => handleSignOut()}
                 >
-                  Signout
+                  Sign Out
                 </Button>
               </div>
             </div>
@@ -102,15 +109,29 @@ export default function Navbar() {
         </button>
         {open && (
           <div className="absolute top-full left-0 w-full shadow-md p-6 flex flex-col gap-4 md:hidden">
-            <Link href="#">Browse Menu</Link>
-            <Link href="#">Restaurants</Link>
+            <Link href="/meals">Browse Meals</Link>
+            <Link href="/providers">Restaurants</Link>
+            {user && (
+              <>
+                <Link href="/orders">Orders</Link>
+                <Link href="/profile">Profile</Link>
+                <Link href="/dashboard">Dashboard</Link>
+                <button
+                  onClick={() => setCartOpen(true)}
+                  className="text-left"
+                  type="button"
+                >
+                  Cart ({cartCount})
+                </button>
+              </>
+            )}
             {!user ? (
               <>
                 <Link
                   href="/login"
                   className="px-4 py-1 rounded-xl bg-orange-500 hover:cursor-pointer "
                 >
-                  LogIn
+                  Login
                 </Link>
                 <Link
                   href="/register"
@@ -120,7 +141,7 @@ export default function Navbar() {
                 </Link>
               </>
             ) : (
-              <div className="flex items-center gep-2">
+              <div className="flex items-center gap-2">
                 <span>{user.name}</span>
               </div>
             )}

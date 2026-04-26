@@ -1,6 +1,6 @@
 import { getMealsById } from "@/actions/public.action";
 import OrderButton from "@/components/modules/order/OrderButton";
-import { ChevronLeft, Clock, MapPin, ShoppingBag, Star } from "lucide-react";
+import { ChevronLeft, Clock, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ export default async function MealDetails({
             />
             <div className="absolute top-4 left-4">
               <span className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium border border-white/10">
-                ⭐4.8 (95+ Reviews)
+                4.8 (95+ Reviews)
               </span>
             </div>
           </div>
@@ -44,7 +44,7 @@ export default async function MealDetails({
               <div className="flex items-center gap-2 text-orange-500 font-medium tracking-wide uppercase text-xs">
                 <MapPin className="w-3 h-3" /> {meal.provider.shopName}
               </div>
-              <h1 className="text-4xl md:text-5xl dark:text-zinc-400 font-extrabold tracking-tight  leading-tight">
+              <h1 className="text-4xl md:text-5xl dark:text-zinc-400 font-extrabold tracking-tight leading-tight">
                 {meal.name}
               </h1>
               <div className="flex items-center gap-6 text-zinc-400 text-sm">
@@ -53,39 +53,33 @@ export default async function MealDetails({
                   <span>15-25 min</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-orange-500 fill-orange-500" />{" "}
+                  <Star className="w-4 h-4 text-orange-500 fill-orange-500" />
                   <span className="text-zinc-200 font-semibold">
                     Popular Choice
                   </span>
                 </div>
               </div>
             </header>
-            <div className="h-px bg-zinc-800 w-full">
-              <section className="space-y-4">
-                <h3 className="text-lg font-semibold text-white">
-                  About this meal
-                </h3>
-                <p className="text-zinc-400 leading-relaxed">
-                  Experience the authentic flavors of {meal.provider.shopName}.
-                  Crafted with fresh ingredients and traditional techniques,
-                  this dish offers a perfect balance of texture and taste.
+            <div className="h-px bg-zinc-800 w-full" />
+            <section className="space-y-4">
+              <h3 className="text-lg font-semibold text-white">About this meal</h3>
+              <p className="text-zinc-400 leading-relaxed">
+                Experience the authentic flavors of {meal.provider.shopName}.
+                Crafted with fresh ingredients and traditional techniques, this
+                dish offers a perfect balance of texture and taste.
+              </p>
+            </section>
+            <section className="bg-zinc-900/50 p-6 rounded-2xl border border-zinc-800 flex items-center justify-between">
+              <div>
+                <p className="text-zinc-500 text-sm uppercase font-semibold tracking-widest">
+                  Price
                 </p>
-              </section>
-              <section className="bg-zinc-900/50 p-6 rounded-2xl border border-zinc-800 flex items-center justify-between">
-                <div>
-                  <p className="text-zinc-500 text-sm uppercase font-semibold tracking-widest">
-                    Price
-                  </p>
-                  <p className="text-3xl font-bold text-white">
-                    ৳{meal.price.toFixed(2)}
-                  </p>
-                </div>
-                {/* <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-110 shadow-lg shadow-orange-500/20 hover:cursor-pointer">
-                  <ShoppingBag className="w-5 h-5" /> Order Now
-                </button> */}
-                <OrderButton meal={meal} />
-              </section>
-            </div>
+                <p className="text-3xl font-bold text-white">
+                  Tk {meal.price.toFixed(2)}
+                </p>
+              </div>
+              <OrderButton meal={meal} />
+            </section>
           </div>
         </div>
       </div>

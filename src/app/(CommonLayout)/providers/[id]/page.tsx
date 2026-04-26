@@ -12,6 +12,11 @@ export default async function RestaurantDetails({
 }) {
   const { id } = await params;
   const provider = await getProvidersById(id);
+  const providerMeals = provider?.Meal || provider?.meals || [];
+
+  if (!provider) {
+    return <p className="text-center py-10">Provider not found.</p>;
+  }
 
   return (
     <div className="min-h-screen">
@@ -86,11 +91,11 @@ export default async function RestaurantDetails({
       <div className="space-y-8 max-w-11/12 mx-auto">
         <div className="flex items-baseline justify-between border-b border-zinc-800 pb-4 px-6">
           <h2 className="text-2xl font-bold">Available Menu</h2>
-          <p className="text-sm">{provider.Meal.length || 0} items</p>
+          <p className="text-sm">{providerMeals.length || 0} items</p>
         </div>
-        {provider.Meal && provider.Meal.length > 0 ? (
+        {providerMeals.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {provider.Meal.map((meal: any) => (
+            {providerMeals.map((meal: any) => (
               <MealCard key={meal.id} meal={{ ...meal, provider }} />
             ))}
           </div>

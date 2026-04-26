@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { createOrder } from "@/actions/order.action";
-import { authClient } from "@/lib/auth-client";
 
 type Meal = {
   id: string;
@@ -26,7 +25,6 @@ const orderSchema = z.object({
 });
 
 export default function OrderButton({ meal }: { meal: Meal }) {
-  
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -45,10 +43,19 @@ export default function OrderButton({ meal }: { meal: Meal }) {
       }
       const toastId = toast.loading("Creating order...");
       try {
-        await createOrder({
+        const result = await createOrder({
           address: value.address,
           items: [{ mealId: meal?.id, qty: value.qty }],
         });
+        if (result.error) {
+          toast.error(
+            typeof result.error === "string"
+              ? result.error
+              : "Order creation failed",
+            { id: toastId }
+          );
+          return;
+        }
         toast.success("Order Created", { id: toastId });
         closeModal();
       } catch (error) {

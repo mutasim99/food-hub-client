@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 export default function CartDrawer({ open, onClose }: any) {
   const [cart, setCart] = useState<any[]>([]);
@@ -14,7 +15,10 @@ export default function CartDrawer({ open, onClose }: any) {
       .catch(() => setCart([]));
   }, [open]);
 
-  const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+  const total = cart.reduce(
+    (sum, item) => sum + item.qty * (item.meal?.price ?? 0),
+    0
+  );
   return (
     <>
       {open && (
@@ -44,8 +48,8 @@ export default function CartDrawer({ open, onClose }: any) {
             <div>
               <button
                 onClick={async () => {
-                  const res = await removeFromCart(item.id);
-                  window.location.reload();
+                  await removeFromCart(item.id);
+                  setCart((prev) => prev.filter((cartItem) => cartItem.id !== item.id));
                 }}
                 className="text-red-500 hover:text-red-700 cursor-pointer"
               >
@@ -55,9 +59,13 @@ export default function CartDrawer({ open, onClose }: any) {
           </div>
         ))}
         <div className="mt-4 border-t-2 pt-4">
-          <p className="text-white font-semibold">Total:${total}</p>
+          <p className="text-white font-semibold">Total: Tk {total.toFixed(2)}</p>
         </div>
-        <Button className="w-full mt-6 bg-orange-500">checkout</Button>
+        <Button asChild className="w-full mt-6 bg-orange-500">
+          <Link href="/checkout" onClick={onClose}>
+            Checkout
+          </Link>
+        </Button>
       </div>
     </>
   );

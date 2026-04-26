@@ -158,10 +158,10 @@ export default function RegisterForm() {
             className="flex items-center gap-2 p-2  rounded-lg cursor-pointer"
             onClick={() => handleGoogleLogin()}
           >
-            <FaGoogle className="text-blue-500" /> LogIn With Google
+            <FaGoogle className="text-blue-500" /> Login with Google
           </button>
           <button className="flex items-center gap-2 p-2  rounded-lg cursor-pointer">
-            <FaGithub className="text-red-500" /> LogIn With Github
+            <FaGithub className="text-red-500" /> Login with GitHub
           </button>
         </div>
       </div>

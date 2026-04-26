@@ -3,6 +3,7 @@ import { getMeals } from "@/actions/public.action";
 import MealCard from "@/components/public/MealCard";
 import MealFilter from "@/components/public/MealFilter";
 import { UtensilsCrossed } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default async function MenuPage({
@@ -39,22 +40,23 @@ export default async function MenuPage({
               Delicious <span className="text-orange-500">Meals</span>
             </h1>
             <p className="text-zinc-400 max-w-md">
-              Discover Delicious Meals from to-rated local kitchens, prepared
+              Discover delicious meals from top-rated local kitchens, prepared
               fresh and delivered to your home
             </p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {categories.map((cat: any) => (
-              <button
+              <Link
+                href={`/meals?categoryId=${cat.id}`}
                 key={cat.id}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
-                  cat.name === "Burger"
+                  filters.categoryId === cat.id
                     ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
                     : "bg-zinc-900 text-zinc-400 border border-zinc-800 hover:border-zinc-600"
                 }`}
               >
                 {cat.name}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -74,7 +76,7 @@ export default async function MenuPage({
           </div>
         ) : (
           <div className="py-20 text-center border border-dashed border-zinc-800 rounded-3xl">
-            <p className="text-zinc-500">No Meals Fount in this category.</p>
+            <p className="text-zinc-500">No meals found in this category.</p>
           </div>
         )}
       </div>

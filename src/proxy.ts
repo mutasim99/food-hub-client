@@ -2,25 +2,48 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "./actions/user.action";
 import { Role } from "./constants/Role";
 export async function proxy(request: NextRequest) {
-  // let isAuthenticated = false;
-  // let isAdmin = false;
-  // let isProvider = false;
   const pathname = request.nextUrl.pathname;
+  const customerOnlyRoutes = ["/cart", "/checkout", "/orders"];
+  const authenticatedRoutes = ["/profile"];
 
   const { data } = await getSession();
+  const isCustomerOnly =
+    customerOnlyRoutes.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`)
+    ) ||
+    pathname.startsWith("/dashboard");
+  const isAuthenticatedOnly =
+    authenticatedRoutes.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`)
+    ) ||
+    pathname.startsWith("/provider-dashboard") ||
+    pathname.startsWith("/admin-dashboard");
 
-  // if (data) {
-  //   isAuthenticated = true;
-  //   isAdmin = data.user.role === Role.ADMIN;
-  //   isProvider = data.user.role === Role.PROVIDER;
-  // }
-
-  if (!data) {
+  if (!data && (isCustomerOnly || isAuthenticatedOnly)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
+
+  if (!data) {
+    return NextResponse.next();
+  }
+
   /* Customer protection  */
   if (pathname === "/dashboard" && data.user.role === Role.CUSTOMER) {
     return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
+  }
+
+  if (
+    customerOnlyRoutes.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`)
+    ) &&
+    data.user.role !== Role.CUSTOMER
+  ) {
+    if (data.user.role === Role.ADMIN) {
+      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+    }
+    if (data.user.role === Role.PROVIDER) {
+      return NextResponse.redirect(new URL("/provider-dashboard", request.url));
+    }
   }
 
   /* Admin protection */
@@ -56,6 +79,11 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/:path*",
+    "/cart",
+    "/checkout",
+    "/orders",
+    "/orders/:path*",
+    "/profile",
     "/provider-dashboard",
     "/provider-dashboard/:path*",
     "/admin-dashboard",
