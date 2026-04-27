@@ -18,15 +18,22 @@ export const MealService = {
       const res = await fetch(url.toString(), {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Cookie: cookieStore.toString(),
         },
         body: fromData,
       });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        return {
+          data: null,
+          error: { message: errorData.message || "Server error occurred" },
+        };
+      }
       const data = await res.json();
       return { data: data, error: null };
     } catch (error) {
-      return { data: null, error: { message: "Something went wrong" } };
+      return { data: null, error: { message: "Something went wrong!!!" } };
     }
   },
   getProviderMeals: async () => {

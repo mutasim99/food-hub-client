@@ -64,7 +64,7 @@ export default function CreateMealForm({
         const res = await CreateMeal(formData);
         if (res?.error) return toast.error(res.error.message, { id: toastId });
 
-        toast.success("Meal live on menu! 🚀", { id: toastId });
+        toast.success("Meal Added on menu! 🚀", { id: toastId });
         form.reset();
         setPreview("");
       } catch {
@@ -218,7 +218,7 @@ export default function CreateMealForm({
                   </FieldLabel>
                   <Textarea
                     placeholder="Describe the ingredients, taste, and preparation..."
-                    className="min-h-[120px] bg-zinc-950 border-zinc-800 focus:ring-orange-500/20 resize-none p-4"
+                    className="min-h-30 bg-zinc-950 border-zinc-800 focus:ring-orange-500/20 resize-none p-4"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
@@ -304,7 +304,7 @@ export default function CreateMealForm({
               <Button
                 type="submit"
                 disabled={!canSubmit || isSubmitting}
-                className="w-full h-14 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white text-lg font-bold transition-all shadow-xl shadow-orange-900/20 active:scale-[0.98] disabled:opacity-50"
+                className="w-full h-14 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white text-lg font-bold transition-all shadow-xl shadow-orange-900/20 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting ? (
                   <Loader2 className="animate-spin" />
