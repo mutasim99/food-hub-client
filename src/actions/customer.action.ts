@@ -5,6 +5,6 @@ export const getFeaturedRestaurant = async () => {
   return await customerService.getProviderRestaurants();
 };
 
-export const becomeAProvider = async (payload: CreateProvider) => {
-  return await customerService.becomeAProvider(payload);
+export const becomeAProvider = async (formData: FormData) => {
+  return await customerService.becomeAProvider(formData);
 };

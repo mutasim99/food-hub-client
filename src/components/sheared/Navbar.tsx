@@ -59,7 +59,6 @@ export default function Navbar() {
           {user && (
             <div className="space-x-8">
               <Link href="/orders">Orders</Link>
-              <Link href="/profile">Profile</Link>
               <Link href="/dashboard">Dashboard</Link>
             </div>
           )}
@@ -114,7 +113,6 @@ export default function Navbar() {
             {user && (
               <>
                 <Link href="/orders">Orders</Link>
-                <Link href="/profile">Profile</Link>
                 <Link href="/dashboard">Dashboard</Link>
                 <button
                   onClick={() => setCartOpen(true)}

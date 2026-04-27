@@ -11,17 +11,17 @@ export interface CreateMealData {
 
 const apiUrl = env.BACKEND_URL;
 export const MealService = {
-  createMeal: async function (payload: CreateMealData) {
+  createMeal: async function (fromData: FormData) {
     try {
       const url = new URL(`${apiUrl}/api/add-meals`);
-      const cookieStore = await cookies()
+      const cookieStore = await cookies();
       const res = await fetch(url.toString(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Cookie: cookieStore.toString(),
         },
-        body: JSON.stringify(payload),
+        body: fromData,
       });
       const data = await res.json();
       return { data: data, error: null };

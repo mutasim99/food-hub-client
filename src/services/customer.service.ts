@@ -23,23 +23,31 @@ export const customerService = {
       return { data: null, error: "Internal server error" };
     }
   },
-  becomeAProvider: async function (payload: CreateProvider) {
+  becomeAProvider: async function (formData: FormData) {
     try {
       const url = new URL(`${apiUrl}/create-profile`);
       const cookieStore = await cookies();
-
+  
       const res = await fetch(url.toString(), {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          cookie: cookieStore.toString(),
+          cookie: cookieStore.toString(), 
         },
-        body: JSON.stringify(payload),
+        body: formData, 
       });
+  
       const data = await res.json();
-      return { data: data, error: null };
+  
+      if (!res.ok) {
+        return {
+          data: null,
+          error: data.error || "Failed to create provider",
+        };
+      }
+  
+      return { data, error: null };
     } catch (error) {
       return { data: null, error: "Internal server error" };
     }
-  },
+  }
 };
