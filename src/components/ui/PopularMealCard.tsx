@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 import { Button } from "./button";
-import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { addToCart } from "@/actions/cart.action";
 import OrderButton from "../modules/order/OrderButton";

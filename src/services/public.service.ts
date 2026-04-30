@@ -36,6 +36,9 @@ export const publicService = {
     const url = new URL(`${apiUrl}/public/providers`);
     const res = await fetch(url.toString(), {
       cache: "no-cache",
+      headers:{
+        "Content-Type": "application/json",
+      }
     });
     const json = await res.json();
     return json.data;

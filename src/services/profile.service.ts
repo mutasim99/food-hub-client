@@ -3,9 +3,11 @@ import { Profile } from "@/types/profile.type";
 import { cookies } from "next/headers";
 
 const apiUrl = env.BACKEND_URL;
+console.log(apiUrl);
+
 
 export const profileService = {
-  getMtProfile: async (): Promise<{
+  getMyProfile: async (): Promise<{
     data: Profile | null;
     error: String | null;
   }> => {
@@ -18,7 +20,10 @@ export const profileService = {
         },
         cache: "no-store",
       });
+
       const result = await res.json();
+      
+
       if (!res.ok) {
         return {
           data: null,
@@ -64,7 +69,7 @@ export const profileService = {
 
       return {
         data: result.data,
-        error:null
+        error: null,
       };
     } catch (error) {
       return {

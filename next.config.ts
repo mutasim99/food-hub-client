@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactCompiler:true,
   images: {
     remotePatterns: [
    
@@ -28,6 +29,15 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        // Explicitly map auth requests
+        source: "/api/auth/:path*",
+        destination: process.env.NEXT_PUBLIC_BACKEND_URL + "/api/auth/:path*",
+      },
+    ];
   },
 };
 

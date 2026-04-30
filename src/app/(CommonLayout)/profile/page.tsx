@@ -4,6 +4,8 @@ import ProfilePage from "@/components/modules/profile/profilePage";
 export default async function Page() {
   const { data, error } = await getMyProfile();
 
+  
+
   if (error || !data) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">

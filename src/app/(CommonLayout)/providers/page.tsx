@@ -2,7 +2,7 @@ import { getProviders } from "@/actions/public.action";
 import ProviderCard from "@/components/public/ProviderCard";
 
 export default async function RestaurantPage() {
-  const res = (await getProviders()) || [];
+  const res = await getProviders() || [];
 
   return (
     <div className="px-6 md:px-16 py-20">

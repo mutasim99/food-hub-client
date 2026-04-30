@@ -2,9 +2,8 @@ import { getCategory } from "@/actions/category.action";
 import { getMeals } from "@/actions/public.action";
 import MealCard from "@/components/public/MealCard";
 import MealFilter from "@/components/public/MealFilter";
-import { UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { UtensilsCrossed } from "lucide-react";
 
 export default async function MenuPage({
   searchParams,
@@ -16,13 +15,18 @@ export default async function MenuPage({
   }>;
 }) {
   const res = await getCategory();
-  const categories = res.data.data || [];
+  const categories = res?.data?.data ?? [];
   const filters = await searchParams;
-  const meals = await getMeals({
+  const mealsData = await getMeals({
     categoryId: filters.categoryId,
     minPrice: filters.minPrice,
     maxPrice: filters.maxPrice,
   });
+
+  const meals = mealsData ?? [];
+
+  
+  
 
   return (
     <div className="min-h-screen  relative overflow-hidden">
@@ -61,7 +65,7 @@ export default async function MenuPage({
           </div>
         </div>
         <div className="flex max-w-2xl items-center justify-end mb-4">
-          <MealFilter categories={categories}/>
+          <MealFilter categories={categories} />
         </div>
         {meals.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

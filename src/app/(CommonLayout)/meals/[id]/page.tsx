@@ -3,6 +3,7 @@ import OrderButton from "@/components/modules/order/OrderButton";
 import { ChevronLeft, Clock, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function MealDetails({
   params,
@@ -10,7 +11,18 @@ export default async function MealDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const meal = await getMealsById(id);
+  let meal;
+  try {
+    meal = await getMealsById(id);
+  } catch (error) {
+    console.error("Failed to fetch meal:", error);
+    notFound(); // shows Next.js 404 page
+  }
+
+  // ✅ Null check
+  if (!meal) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen dark:bg-black dark:text-zinc-100 pb-20">

@@ -11,8 +11,10 @@ export default async function RestaurantDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
   const provider = await getProvidersById(id);
   const providerMeals = provider?.Meal || provider?.meals || [];
+  console.log(providerMeals);
 
   if (!provider) {
     return <p className="text-center py-10">Provider not found.</p>;

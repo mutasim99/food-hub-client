@@ -8,7 +8,7 @@ interface Category {
 }
 export default async function CategorySection() {
   const categoryData = await getCategory();
-  const categories: Category[] = categoryData.data.data ||[];
+  const categories: Category[] = categoryData?.data?.data ||[];
 
   return (
     <div className="py-16 px-6">
