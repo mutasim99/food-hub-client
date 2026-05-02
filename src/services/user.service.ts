@@ -21,6 +21,7 @@ export const userService = {
         headers: {
           cookie: cookieStore.toString(),
         },
+        credentials:"include",
         cache: "no-cache",
       });
       const session = await res.json();

@@ -25,7 +25,8 @@ export default function LoginForm() {
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
+      callbackURL:
+        typeof window !== "undefined" ? `${window.location.origin}/` : "/",
     });
   };
   const form = useForm({

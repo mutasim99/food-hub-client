@@ -1,51 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
-import { userService } from "./services/user.service";
 import { Role } from "./constants/Role";
+import { env } from "@/env";
+
+async function getSession(request: NextRequest) {
+  console.log("AUTH_URL:", env.AUTH_URL);
+  console.log("cookies:", request.headers.get("cookie"));
+  try {
+    const res = await fetch(`${env.AUTH_URL}/get-session`, {
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+      cache: "no-cache",
+    });
+    console.log("status:", res.status);
+    const session = await res.json();
+    console.log("session:", JSON.stringify(session));
+    return session ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 1. Define which routes actually require a login
   const protectedRoutes = [
     "/dashboard",
     "/provider-dashboard",
     "/admin-dashboard",
-    "/profile"
+    "/profile",
+    "/orders",
   ];
 
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname === route || pathname.startsWith(`${route}/`)
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
 
-  const { data } = await userService.getSession();
+  const data = await getSession(request);
   const user = data?.user;
 
-  // 2. ONLY redirect to login if they are hitting a protected route
   if (!user && isProtectedRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 3. Role-Based Redirection (Authorization)
   if (user) {
-    // Prevent Admins from accessing the basic User Dashboard
     if (user.role === Role.ADMIN && pathname.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/admin-dashboard", request.url));
     }
-
-    // Prevent Providers from accessing the basic User Dashboard
     if (user.role === Role.PROVIDER && pathname.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/provider-dashboard", request.url));
     }
-
-    // Prevent regular Users from accessing Admin or Provider areas
-    const isAdminRoute = pathname.startsWith("/admin-dashboard");
-    const isProviderRoute = pathname.startsWith("/provider-dashboard");
-
-    if (isAdminRoute && user.role !== Role.ADMIN) {
+    if (pathname.startsWith("/admin-dashboard") && user.role !== Role.ADMIN) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
-
-    if (isProviderRoute && user.role !== Role.PROVIDER) {
+    if (
+      pathname.startsWith("/provider-dashboard") &&
+      user.role !== Role.PROVIDER
+    ) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
@@ -59,5 +70,6 @@ export const config = {
     "/provider-dashboard/:path*",
     "/admin-dashboard/:path*",
     "/profile/:path*",
+    "/orders/:path*",
   ],
 };

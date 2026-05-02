@@ -11,6 +11,7 @@ import { getCart } from "@/actions/cart.action";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+
   const [open, setOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;

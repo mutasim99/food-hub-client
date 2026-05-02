@@ -1,12 +1,10 @@
-import { createAuthClient } from "better-auth/react"; 
+import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
- 
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
-    ? process.env.NEXT_PUBLIC_BACKEND_URL
+  baseURL: process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth`
     : "/api/auth",
   fetchOptions: { credentials: "include" },
-
   plugins: [
     {
       id: "next-cookies-request",
@@ -28,10 +26,3 @@ export const authClient = createAuthClient({
     },
   ],
 });
-
-// export const signInWithGoogle = async () => {
-//   return await authClient.signIn.social({
-//     provider: "google",
-//     callbackURL: `${process.env.NEXT_PUBLIC_APP_URL}/private`,
-//   });
-// };
