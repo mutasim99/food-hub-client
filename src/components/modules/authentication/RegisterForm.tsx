@@ -26,7 +26,7 @@ export default function RegisterForm() {
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
+      callbackURL: "https://foodhub-client-wheat.vercel.app",
     });
   };
   const form = useForm({

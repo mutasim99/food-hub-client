@@ -16,7 +16,7 @@ export const cartService = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        cookie: cookieStore.toString(),
+        cookie:cookieStore.getAll().map(c => `${c.name}=${c.value}`).join("; "),
       },
       body: JSON.stringify({ mealId, qty }),
     });
@@ -44,7 +44,7 @@ export const cartService = {
 
     const res = await fetch(url.toString(), {
       headers: {
-        cookie: cookieStore.toString(),
+        cookie: cookieStore.getAll().map(c => `${c.name}=${c.value}`).join("; "),
       },
       next: {
         tags: ["cartItems"],

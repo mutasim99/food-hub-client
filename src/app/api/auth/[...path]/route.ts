@@ -16,6 +16,7 @@ async function handler(
     },
     body: request.method !== "GET" ? await request.text() : undefined,
     cache: "no-cache",
+    redirect: "manual",
   });
 
   const body = await res.text();
@@ -27,7 +28,15 @@ async function handler(
     }
   });
 
-  headers.set("content-type", res.headers.get("content-type") || "application/json");
+  const location = res.headers.get("location");
+  if (location) {
+    headers.set("location", location);
+  }
+
+  headers.set(
+    "content-type",
+    res.headers.get("content-type") || "application/json"
+  );
 
   return new Response(body, { status: res.status, headers });
 }

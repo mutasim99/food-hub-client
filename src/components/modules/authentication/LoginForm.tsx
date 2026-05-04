@@ -23,11 +23,13 @@ const fromSchema = z.object({
 export default function LoginForm() {
   const router = useRouter();
   const handleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
+    const { data, error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL:
-        typeof window !== "undefined" ? `${window.location.origin}/` : "/",
+      callbackURL: "https://foodhub-client-indol.vercel.app",
     });
+    if (error) {
+      toast.error(error.message);
+    }
   };
   const form = useForm({
     defaultValues: {
