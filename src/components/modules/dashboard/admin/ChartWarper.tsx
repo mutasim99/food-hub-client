@@ -17,7 +17,6 @@ const UserGrowthChart = dynamic(
 );
 
 export default function ChartWrapper({ data }: ChartWrapperProps) {
- 
   if (!data || data.length === 0) {
     return (
       <div className="h-64 w-full flex items-center justify-center border-2 border-dashed border-border rounded-xl text-muted-foreground italic text-sm">
@@ -28,8 +27,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
 
   return (
     <div className="w-full h-full">
-      
-       <UserGrowthChart data={data} />
+      <UserGrowthChart data={data} />
     </div>
   );
 }

@@ -32,6 +32,33 @@ export const orderServices = {
       return { data: null, error: { message: "Something went wrong" } };
     }
   },
+  getTotalOrders: async function (params: {
+    search?: string;
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: string;
+  }) {
+    const cookieStore = await cookies();
+    const url = new URL(`${apiUrl}/admin-order`);
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        url.searchParams.append(key, value.toString());
+      }
+    });
+    const res = await fetch(url.toString(), {
+      headers: {
+        cookie: cookieStore.toString(),
+      },
+      cache: "no-cache",
+    });
+    const json = await res.json();
+    return {
+      data: json.data,
+      meta: json.meta,
+      error: null,
+    };
+  },
   getMyOrder: async function () {
     const cookieStore = await cookies();
     const url = new URL(`${apiUrl}/my-orders`);
@@ -59,7 +86,7 @@ export const orderServices = {
     const cookieStore = await cookies();
     const url = new URL(`${apiUrl}/my-orders/${id}/cancel`);
     const res = await fetch(url.toString(), {
-      method:"PATCH",
+      method: "PATCH",
       headers: {
         cookie: cookieStore.toString(),
       },

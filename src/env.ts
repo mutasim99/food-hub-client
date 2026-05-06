@@ -7,7 +7,7 @@ export const env = createEnv({
     FRONTEND_URL: z.url(),
     AUTH_URL: z.url(),
   },
-  //   client: "",
+
   runtimeEnv: {
     BACKEND_URL: process.env.BACKEND_URL,
     FRONTEND_URL: process.env.FRONTEND_URL,

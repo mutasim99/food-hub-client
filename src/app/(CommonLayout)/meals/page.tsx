@@ -25,9 +25,6 @@ export default async function MenuPage({
 
   const meals = mealsData ?? [];
 
-  
-  
-
   return (
     <div className="min-h-screen  relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] -z-10" />

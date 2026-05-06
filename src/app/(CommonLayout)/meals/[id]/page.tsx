@@ -16,10 +16,10 @@ export default async function MealDetails({
     meal = await getMealsById(id);
   } catch (error) {
     console.error("Failed to fetch meal:", error);
-    notFound(); // shows Next.js 404 page
+    notFound(); 
   }
 
-  // ✅ Null check
+  
   if (!meal) {
     notFound();
   }
@@ -98,3 +98,5 @@ export default async function MealDetails({
     </div>
   );
 }
+
+

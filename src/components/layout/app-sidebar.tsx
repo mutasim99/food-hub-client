@@ -19,7 +19,7 @@ import { customersRoutes } from "@/routes/customer";
 import { Routes } from "@/types";
 import { LogOut, UserRoundPen } from "lucide-react";
 
-// This is sample data.
+
 
 export function AppSidebar({
   user,

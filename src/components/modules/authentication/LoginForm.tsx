@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { logger } from "better-auth";
 
 const fromSchema = z.object({
   email: z.email(),
@@ -25,9 +26,10 @@ export default function LoginForm() {
   const handleGoogleLogin = async () => {
     const { data, error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "https://foodhub-client-indol.vercel.app",
+      callbackURL: "/",
     });
     if (error) {
+      console.log("Error during Google login:", error);
       toast.error(error.message);
     }
   };

@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "./button";
 import { toast } from "sonner";
 import { addToCart } from "@/actions/cart.action";
 import OrderButton from "../modules/order/OrderButton";
+import { ShoppingCart } from "lucide-react";
+
 interface Meal {
   id: string;
   name: string;
@@ -13,45 +16,61 @@ interface Meal {
     shopName: string;
   };
 }
+
 export default function PopularMealCard({ meals }: { meals: Meal[] }) {
- 
   return (
-    <div className="px-6 md:px-16 py-20">
+    <div className="px-6 md:px-16 py-20 bg-[#0a0a0a]">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-white">
           Popular <span className="text-orange-500">Meals</span>
         </h2>
-        <p className="text-gra-400">People are ordering these right now 🔥</p>
+        <p className="text-gray-400 mt-2">
+          People are ordering these right now 🔥
+        </p>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {meals.map((meal) => (
           <div
             key={meal.id}
-            className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg hover:shadow-orange-500/20 transition"
+            className="group bg-[#141414] rounded-2xl overflow-hidden border border-zinc-800 hover:border-orange-500/50 transition-all duration-300"
           >
-            <div className="relative h-48">
-              <Image
-                src={meal.image}
-                alt={meal.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 space-y-2">
-              <h2 className="text-lg font-semibold text-white">{meal.name}</h2>
-              <p className="text-sm text-gray-400">
-                by {meal.provider.shopName}
-              </p>
-              <div className="flex items-center justify-between pt-3">
-                <span>${meal.price}</span>
-                <div className="flex gap-4">
+            
+            <Link href={`/meals/${meal.id}`} className="cursor-pointer">
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src={meal.image}
+                  alt={meal.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="text-xl font-bold text-white group-hover:text-orange-500 transition-colors">
+                  {meal.name}
+                </h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  by {meal.provider.shopName}
+                </p>
+              </div>
+            </Link>
+
+            
+            <div className="p-5 pt-0">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-xl font-bold text-white">
+                  ${meal.price}
+                </span>
+                <div className="flex gap-2 flex-1">
                   <OrderButton meal={meal} />
                   <Button
-                    className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
-                    onClick={async () => {
+                    size="sm"
+                    className="bg-orange-600 hover:bg-orange-700 text-white flex-1 h-10"
+                    onClick={async (e) => {
+                      e.preventDefault(); 
                       try {
-                        const res = await addToCart(meal.id, 1);
-                        toast.success("Add to the cart🛒");
+                        await addToCart(meal.id, 1);
+                        toast.success("Added to cart 🛒");
                       } catch (e: any) {
                         toast.error(e.message);
                       }

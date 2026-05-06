@@ -24,7 +24,7 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
   };
 
   return (
-    // Main Container - Using your deep dark theme
+   
     <div className="min-h-screen bg-[#0a0a0a] text-slate-200 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         
