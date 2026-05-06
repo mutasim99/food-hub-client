@@ -1,31 +1,26 @@
 import { getTotalOrders } from "@/actions/order.action";
 import OrderChart from "@/components/modules/order/OrderChart";
-import OrderPagination from "@/components/modules/order/OrderPagination";
 import OrderSearch from "@/components/modules/order/OrderSearch";
 import OrderSort from "@/components/modules/order/OrderSort";
 import OrderStats from "@/components/modules/order/OrderStats";
 import OrderTable from "@/components/modules/order/OrderTable";
+import PaginationControls from "@/components/modules/order/PaginationControls";
 
 export const dynamic = "force-dynamic";
 
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     search?: string;
     page?: string;
+    limit?: string;
     sortBy?: string;
     sortOrder?: string;
-  };
+  }>;
 }) {
-  const { data: orders = [], meta } =
-    (await getTotalOrders({
-      search: searchParams.search,
-      page: Number(searchParams.page) || 1,
-      limit: 10,
-      sortBy: searchParams.sortBy || "createdAt",
-      sortOrder: searchParams.sortOrder || "desc",
-    })) || {};
+  const params = await searchParams;
+  const result = await getTotalOrders(params);
 
   return (
     <div className="p-4 md:p-8 space-y-8 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors duration-300">
@@ -44,7 +39,7 @@ export default async function OrdersPage({
           </button>
         </div>
       </div>
-      <OrderStats orders={orders} />
+      <OrderStats orders={result?.data} meta={result?.meta} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
           <div className="flex items-center justify-between mb-6">
@@ -55,7 +50,7 @@ export default async function OrdersPage({
               +12.5% Inc
             </span>
           </div>
-          <OrderChart orders={orders} />
+          <OrderChart orders={result?.data} />
         </div>
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -68,7 +63,7 @@ export default async function OrdersPage({
                 Orders Processed
               </p>
               <p className="text-2xl font-black text-slate-900 dark:text-white">
-                {orders.length}
+                {result?.data.length}
               </p>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -96,24 +91,12 @@ export default async function OrdersPage({
         </div>
 
         <div className="overflow-x-auto">
-          <OrderTable orders={orders} />
+          <OrderTable orders={result?.data} />
         </div>
 
-        {meta && meta.totalPage > 0 && (
-          <div className="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-              Showing page{" "}
-              <span className="text-indigo-600 dark:text-indigo-400 font-bold">
-                {meta.page}
-              </span>{" "}
-              of{" "}
-              <span className="text-slate-900 dark:text-white font-bold">
-                {meta.totalPage}
-              </span>
-            </p>
-            <OrderPagination meta={meta} />
-          </div>
-        )}
+        <div className="mt-2">
+          <PaginationControls meta={result?.meta}/>
+        </div>
       </div>
     </div>
   );

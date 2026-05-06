@@ -52,29 +52,26 @@ export const categoryService = {
       return { data: null, error: { message: "Something went wrong" } };
     }
   },
-  createCategory: async function (categoryName: string, categoryImage: string) {
+  createCategory: async function (formData: FormData) {
     try {
       const cookieStore = await cookies();
       const res = await fetch(`${API_URL}/categories`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           cookie: cookieStore.toString(),
         },
-        body: JSON.stringify({
-          name: categoryName,
-          image: categoryImage,
-        }),
+        credentials: "include",
+        body: formData,
       });
 
       const data = await res.json();
 
-      if (data.error) {
+      if (!res.ok || data.error) {
         return { data: null, error: { message: "Error:Post not found" } };
       }
       return { data: data, error: null };
-    } catch (error) {
-      return { data: null, error: { message: "Something went wrong" } };
+    } catch (error: any) {
+      return { data: null, error: { message: error.message } };
     }
   },
 };

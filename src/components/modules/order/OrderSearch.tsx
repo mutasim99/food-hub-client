@@ -2,19 +2,33 @@
 
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function OrderSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const searchFromUrl = searchParams.get("search") || "";
 
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
+  const [searchTerm, setSearchTerm] = useState(searchFromUrl);
+
+  const searchParamsRef = useRef(searchFromUrl);
 
   useEffect(() => {
+    searchParamsRef.current = searchFromUrl;
+  }, [searchFromUrl]);
+
+  useEffect(() => {
+    setSearchTerm(searchFromUrl);
+  }, [searchFromUrl]);
+
+  useEffect(() => {
+    if (searchTerm === searchFromUrl) {
+      return;
+    }
+
     const delayDebounceFn = setTimeout(() => {
       const query = new URLSearchParams(searchParams.toString());
+
       if (searchTerm) {
         query.set("search", searchTerm);
       } else {
@@ -24,7 +38,7 @@ export default function OrderSearch() {
       router.push(`?${query.toString()}`, { scroll: false });
     }, 500);
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, router, searchParams]);
+  }, [searchTerm, searchFromUrl, router]);
 
   return (
     <div className="relative w-full md:w-80">

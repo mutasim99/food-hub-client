@@ -7,11 +7,10 @@ export const getCategory = async () => {
   return await categoryService.getCategory();
 };
 
-export const createCategory = async (
-  categoryName: string,
-  categoryImage: string
-) => {
-  const res = await categoryService.createCategory(categoryName, categoryImage);
-  updateTag("categoryData");
+export const createCategory = async (formData:FormData) => {
+  const res = await categoryService.createCategory(formData);
+  if (res.data) {
+    updateTag("categoryData");
+  }
   return res;
 };

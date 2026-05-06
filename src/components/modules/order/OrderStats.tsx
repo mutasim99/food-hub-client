@@ -1,17 +1,23 @@
 import { ShoppingBag, Users, CheckCircle } from "lucide-react";
 
-export default function OrderStats({ orders }: { orders: any[] }) {
+export default function OrderStats({
+  orders,
+  meta,
+}: {
+  orders: any[];
+  meta?: any;
+}) {
   const stats = [
     {
       label: "Total Orders",
-      value: orders?.length || 0,
+      value: meta?.total ?? orders.length ?? 0,
       icon: ShoppingBag,
       color: "text-blue-600",
       bg: "bg-blue-100",
     },
     {
       label: "Total Users",
-      value: new Set(orders?.map((order) => order?.customer)).size,
+      value:meta?.totalUsers ??0,
       icon: Users,
       color: "text-purple-600",
       bg: "bg-purple-100",
@@ -19,7 +25,7 @@ export default function OrderStats({ orders }: { orders: any[] }) {
 
     {
       label: "Completed",
-      value: orders?.length || 0,
+      value:meta?.completeCount ?? 0,
       icon: CheckCircle,
       color: "text-green-600",
       bg: "bg-green-100",
