@@ -29,7 +29,14 @@ export const ProviderMealService = {
           Cookie: cookieStore.toString(),
         },
       });
+
       const data = await res.json();
+      if (!res.ok) {
+        return {
+          data: null,
+          error: data?.error?.message || "Failed to delete meal",
+        };
+      }
       return { data: data, error: null };
     } catch (error) {
       return { data: null, error: { message: "Something gone wrong" } };
@@ -72,7 +79,7 @@ export const ProviderMealService = {
       }
       return { data: data.data, error: null };
     } catch (error) {
-      return {data:null, error:"Something went wrong"}
+      return { data: null, error: "Something went wrong" };
     }
   },
 };

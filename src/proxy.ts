@@ -48,16 +48,18 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/admin-dashboard", request.url));
     }
     if (user.role === Role.PROVIDER && pathname.startsWith("/dashboard")) {
-      return NextResponse.redirect(new URL("/provider-dashboard", request.url));
+      return NextResponse.redirect(
+        new URL("/provider-dashboard/myOrders", request.url)
+      );
     }
     if (pathname.startsWith("/admin-dashboard") && user.role !== Role.ADMIN) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
     }
     if (
       pathname.startsWith("/provider-dashboard") &&
       user.role !== Role.PROVIDER
     ) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
     }
   }
 

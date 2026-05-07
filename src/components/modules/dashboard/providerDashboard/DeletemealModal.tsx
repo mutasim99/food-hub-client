@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function DeleteMealModel({
   mealId,
@@ -15,16 +16,21 @@ export default function DeleteMealModel({
   mealId: string | null;
   onClose: () => void;
 }) {
+  const router = useRouter();
   if (!mealId) {
     return null;
   }
 
   const handleDelete = async () => {
     try {
-      await deleteMyMeals(mealId);
+      const res = await deleteMyMeals(mealId);
+      if (res.error) {
+        toast.error(res.error || "Failed to delete meal");
+        return;
+      }
       toast.success("Meal deleted");
       onClose();
-      window.location.reload()
+      router.refresh();
     } catch (error) {
       toast.error("Failed to delete");
     }
@@ -40,10 +46,18 @@ export default function DeleteMealModel({
             Are you sure? This action can not be undone
           </p>
           <div className="flex justify-end gap-3 mt-4">
-            <Button variant="outline" onClick={onClose}>
+            <Button
+              className="cursor-pointer"
+              variant="outline"
+              onClick={onClose}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
+              onClick={handleDelete}
+            >
               Delete
             </Button>
           </div>

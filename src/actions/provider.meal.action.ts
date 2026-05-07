@@ -6,7 +6,11 @@ export const getMyMeals = async () => {
 };
 
 export const deleteMyMeals = async (id: string) => {
-  return await ProviderMealService.deleteMyMeals(id);
+  const result = await ProviderMealService.deleteMyMeals(id);
+  if (result.error) {
+    throw new Error(result.error.message || "Failed to delete meal");
+  }
+  return result.data;
 };
 
 export const getProviderOrder = async () => {
