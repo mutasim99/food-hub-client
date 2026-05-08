@@ -7,7 +7,7 @@ export default function CategoryCard({
   category: { id: string; name: string; image: string };
 }) {
   return (
-    <div className="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+    <div className="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
       <div className="relative h-40 w-full overflow-hidden">
         <div className="absolute inset-0 transform transition-transform duration-500 ease-out group-hover:scale-110">
           <Image

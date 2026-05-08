@@ -8,12 +8,12 @@ interface Category {
 }
 export default async function CategorySection() {
   const categoryData = await getCategory();
-  const categories: Category[] = categoryData?.data?.data ||[];
+  const categories: Category[] = categoryData?.data?.data || [];
 
   return (
     <div className="py-16 px-6">
-      <h2 className="text-center text-2xl font-bold mb-8">
-        Browse By Category
+      <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight mt-8">
+        What We <span className="text-orange-500">Offer</span>{" "}
       </h2>
       {categories.length === 0 ? (
         <p className="text-center text-lg font-semibold">No category found</p>
