@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import DeleteMealModel from "./DeleteMealModal";
+import UpdateMealModal from "./UpdateMealModal";
 
 interface Meal {
   id: string;
@@ -21,6 +22,7 @@ interface Meal {
 
 export default function ProviderMealTable({ meals }: { meals: Meal[] }) {
   const [selectId, setSelectId] = useState<string | null>(null);
+  const [editMeal, setEditMeal] = useState<Meal | null>(null);
   return (
     <div>
       <Table className="border-2 rounded-md">
@@ -53,6 +55,7 @@ export default function ProviderMealTable({ meals }: { meals: Meal[] }) {
                     size="sm"
                     variant="outline"
                     className="hover:cursor-pointer"
+                    onClick={() => setEditMeal(meal)}
                   >
                     Edit
                   </Button>
@@ -71,6 +74,9 @@ export default function ProviderMealTable({ meals }: { meals: Meal[] }) {
         </TableBody>
       </Table>
       <DeleteMealModel mealId={selectId} onClose={() => setSelectId(null)} />
+      {editMeal && (
+        <UpdateMealModal meal={editMeal} onClose={() => setEditMeal(null)} />
+      )}
     </div>
   );
 }

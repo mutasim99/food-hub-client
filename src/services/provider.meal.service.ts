@@ -19,6 +19,32 @@ export const ProviderMealService = {
       return { data: null, error: { message: "Something went wrong" } };
     }
   },
+  updateMeal: async function (mealId: string, formData: FormData) {
+    const cookieStore = await cookies();
+    const url = new URL(`${apiUrl}/api/meals/${mealId}`);
+    try {
+      const res = await fetch(url.toString(), {
+        method: "PUT",
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        credentials: "include",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        return {
+          data: null,
+          error: { message: errorData.message || "Server error occurred" },
+        };
+      }
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!!!" } };
+    }
+  },
   deleteMyMeals: async function (id: string) {
     try {
       const cookieStore = await cookies();

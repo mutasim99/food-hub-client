@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { logger } from "better-auth";
 
 const fromSchema = z.object({
   email: z.email(),
