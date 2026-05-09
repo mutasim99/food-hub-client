@@ -1,15 +1,16 @@
 import { getFeaturedRestaurant } from "@/actions/customer.action";
 import FeaturedRestaurantCard from "@/components/sheared/FeaturedRestaurantCard";
-import { env } from "@/env";
-import React from "react";
+
 
 export default async function FeaturedRestaurant() {
-  const {data} = await getFeaturedRestaurant();
+  const response = await getFeaturedRestaurant();
   
 
+  const providers = response?.data?.data || [];
+
+  if (providers.length === 0) return null;
+
   return (
-    <div>
-      <FeaturedRestaurantCard providers={data?.data ||[]} />
-    </div>
+    <FeaturedRestaurantCard providers={providers} />
   );
 }

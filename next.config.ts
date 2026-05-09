@@ -1,28 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactCompiler:true,
+  reactCompiler: true,
   images: {
     remotePatterns: [
-   
       {
         protocol: "https",
         hostname: "i.ibb.co",
         pathname: "/**",
       },
-      
+
       {
         protocol: "https",
         hostname: "i.ibb.co.com",
         pathname: "/**",
       },
-     
+
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
         pathname: "/**",
       },
-      
+
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
@@ -33,7 +32,6 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        // Explicitly map auth requests
         source: "/api/auth/:path*",
         destination: process.env.NEXT_PUBLIC_BACKEND_URL + "/api/auth/:path*",
       },

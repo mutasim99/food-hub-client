@@ -19,7 +19,7 @@ export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
-  // Close mobile menu on route change
+
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
@@ -48,16 +48,16 @@ export default function Navbar() {
   return (
     <div className="relative z-50 w-full px-4 py-3">
       <nav className="max-w-7xl mx-auto bg-card border shadow-sm px-4 py-3 flex items-center rounded-2xl justify-between">
-        {/* Logo */}
+
         <Link
           href="/"
           className="text-2xl font-bold flex items-center gap-2"
-          style={{ color: "#FF7A18" }}
+          style={{ color: "#FF6900" }}
         >
           FoodHub
         </Link>
 
-        {/* Desktop Navigation */}
+
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
           <Link href="/" className="hover:text-primary transition-colors">
             Home
@@ -89,7 +89,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Right Side Actions */}
+
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-3">
             <ModeToggle />
@@ -133,13 +133,13 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* Mobile Menu Toggle */}
+
           <button className="md:hidden p-2" onClick={() => setOpen(!open)}>
             {open ? <X /> : <Menu />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+
         {open && (
           <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-card border shadow-xl rounded-2xl p-6 flex flex-col gap-5 md:hidden animate-in slide-in-from-top-5 duration-200 z-50">
             <div className="flex flex-col gap-4 text-lg font-medium">

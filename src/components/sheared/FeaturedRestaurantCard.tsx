@@ -1,11 +1,23 @@
 "use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import {
+  MapPin,
+  Utensils,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Star,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
 
 import "swiper/css";
 import "swiper/css/pagination";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import "swiper/css/navigation";
+
 interface Restaurant {
   id: string;
   name: string;
@@ -13,60 +25,125 @@ interface Restaurant {
   image: string;
   totalMeal: number;
 }
+
 export default function FeaturedRestaurantCard({
-  providers,
+  providers = [],
 }: {
   providers: Restaurant[];
 }) {
-    
-    
+  if (!providers || providers.length === 0) return null;
+
   return (
-    <section className=" py-20 max-w-7xl mx-auto">
-      <h2 className="text-4xl font-bold text-center mb-10 text-white">
-        Featured Restaurants
-      </h2>
-      <Swiper
-        slidesPerView={4}
-        spaceBetween={30}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3000 }}
-        modules={[Pagination, Autoplay]}
-        breakpoints={{
-          0: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 4 },
-        }}
-        className="mySwiper"
-      >
-        {providers.map((p) => (
-          <SwiperSlide key={p.id}>
-            <div className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg">
-              <div className="relative h-44">
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-end">
-                  <h3 className="text-xl font-semibold text-white p-4">
-                    {p.name}
-                  </h3>
+    <section className="py-24 bg-white dark:bg-[#050505] transition-colors duration-500 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+  
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="max-w-xl text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 mb-4">
+              <Star size={14} className="text-orange-500 fill-orange-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-orange-600 dark:text-orange-500">
+                Top Rated Partners
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white tracking-tight">
+              Featured <span className="text-orange-500">Kitchens</span>
+            </h2>
+            <p className="text-zinc-500 dark:text-zinc-400 mt-4 text-sm md:text-base leading-relaxed">
+              Experience the finest culinary talents in your city, hand-picked
+              for their quality, hygiene, and taste.
+            </p>
+          </div>
+
+
+          <div className="hidden md:flex gap-3 mb-2">
+            <button className="rs-prev h-12 w-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-orange-500 hover:border-orange-500 hover:text-white transition-all duration-300 shadow-sm">
+              <ChevronLeft size={24} />
+            </button>
+            <button className="rs-next h-12 w-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-orange-500 hover:border-orange-500 hover:text-white transition-all duration-300 shadow-sm">
+              <ChevronRight size={24} />
+            </button>
+          </div>
+        </div>
+
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={24}
+          loop={true}
+          navigation={{
+            prevEl: ".rs-prev",
+            nextEl: ".rs-next",
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          modules={[Pagination, Autoplay, Navigation]}
+          breakpoints={{
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 },
+          }}
+          className="featured-swiper pb-16! 
+            [&_.swiper-pagination-bullet]:bg-zinc-300 
+            dark:[&_.swiper-pagination-bullet]:bg-zinc-700 
+            [&_.swiper-pagination-bullet]:opacity-100
+            [&_.swiper-pagination-bullet-active]:bg-orange-500 
+            [&_.swiper-pagination-bullet-active]:w-6 
+            [&_.swiper-pagination-bullet-active]:rounded-full transition-all"
+        >
+          {providers.map((p) => (
+            <SwiperSlide key={p.id}>
+              <div className="group relative bg-zinc-50 dark:bg-zinc-900/40 rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800/50 p-3 hover:border-orange-500/30 transition-all duration-500 overflow-hidden">
+
+                <div className="relative h-60 w-full rounded-[2rem] overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div className="absolute inset-x-3 bottom-3 bg-white/70 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10 p-4 rounded-2xl shadow-lg">
+                    <h3 className="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-orange-500 transition-colors truncate">
+                      {p.name}
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-300 mt-0.5">
+                      <MapPin size={12} className="text-orange-500 shrink-0" />
+                      <span className="text-[11px] font-medium truncate">
+                        {p.address}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div className="px-4 pt-5 pb-2">
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="h-8 w-8 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                      <Utensils size={14} className="text-orange-500" />
+                    </div>
+                    <span className="text-xs font-bold tracking-wide uppercase text-zinc-500 dark:text-zinc-400">
+                      {p.totalMeal} Signature Meals
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/providers/${p.id}`}
+                    className="flex items-center justify-center gap-2 w-full h-12 bg-white dark:bg-zinc-100 text-black font-bold rounded-xl transition-all hover:bg-orange-500 hover:text-white group/btn shadow-sm"
+                  >
+                    View Menu
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover/btn:translate-x-1"
+                    />
+                  </Link>
                 </div>
               </div>
-              <div className="p-4 text-center">
-                <p className="text-sm text-gray-400">{p.address}</p>
-                <p className="text-orange-400 text-sm mt-1">
-                  {p.totalMeal} meals
-                </p>
-                <Button className="w-full bg-orange-500 hover:bg-orange-600 mt-4">
-                  View Menu
-                </Button>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </section>
   );
 }
