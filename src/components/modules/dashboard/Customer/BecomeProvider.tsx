@@ -40,7 +40,7 @@ export default function BecomeProviderForm() {
       phone: "",
       image: null as File | null,
     },
-    
+
     validators: {
       onSubmit: formSchema,
     },
@@ -65,7 +65,6 @@ export default function BecomeProviderForm() {
           toast.success("Congratulations! You are now a provider 🎉", {
             id: toastId,
           });
-          
         }
       } catch (error) {
         toast.error("Something went wrong. Please try again.", { id: toastId });
@@ -74,172 +73,139 @@ export default function BecomeProviderForm() {
   });
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-2xl">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-          <Store className="text-orange-500" /> Become a Provider
-        </h2>
-        <p className="text-zinc-400 text-sm mt-1">
-          Fill out the details below to start selling on FoodHub.
-        </p>
-      </div>
+    <div className="bg-white dark:bg-zinc-900/40 backdrop-blur-xl rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800/50 shadow-2xl shadow-zinc-200/50 dark:shadow-none p-8 md:p-10 transition-all">
+    <div className="mb-10 text-center lg:text-left">
+      <h2 className="text-2xl font-black text-zinc-900 dark:text-white">
+        Provider <span className="text-orange-500">Application</span>
+      </h2>
+      <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-2 font-medium">
+        Verify your business details to get started.
+      </p>
+    </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-        className="space-y-6"
-      >
-        <FieldGroup className="space-y-4">
-          {/* Shop Name */}
-          <form.Field name="shopName">
-            {(field) => (
-              <Field className="space-y-2">
-                <FieldLabel className="text-zinc-300 flex items-center gap-2">
-                  <Store size={14} className="text-orange-500" /> Shop Name
-                </FieldLabel>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+      className="space-y-8"
+    >
+      <FieldGroup className="space-y-6">
+      
+        <form.Field name="shopName">
+          {(field) => (
+            <div className="space-y-2">
+              <FieldLabel className="text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 ml-1">
+                Shop Name
+              </FieldLabel>
+              <div className="relative group">
+                <Store className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-orange-500 transition-colors" size={18} />
                 <Input
                   value={field.state.value}
-                  onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="e.g. Gourmet Burgers"
-                  className="bg-zinc-900/50 border-zinc-800 focus:border-orange-500/50 h-11"
+                  className="pl-12 bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-orange-500/20 h-14 rounded-2xl transition-all font-medium"
                 />
-                <FieldError
-                  className="text-xs text-red-500"
-                  errors={field.state.meta.errors}
-                />
-              </Field>
-            )}
-          </form.Field>
-
-          {/* Address */}
-          <form.Field name="address">
-            {(field) => (
-              <Field className="space-y-2">
-                <FieldLabel className="text-zinc-300 flex items-center gap-2">
-                  <MapPin size={14} className="text-orange-500" /> Business
-                  Address
-                </FieldLabel>
-                <Input
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Street, City, Postal Code"
-                  className="bg-zinc-900/50 border-zinc-800 focus:border-orange-500/50 h-11"
-                />
-                <FieldError
-                  className="text-xs text-red-500"
-                  errors={field.state.meta.errors}
-                />
-              </Field>
-            )}
-          </form.Field>
-
-          {/* Phone */}
-          <form.Field name="phone">
-            {(field) => (
-              <Field className="space-y-2">
-                <FieldLabel className="text-zinc-300 flex items-center gap-2">
-                  <Phone size={14} className="text-orange-500" /> Contact Phone
-                </FieldLabel>
-                <Input
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="+1 (555) 000-0000"
-                  className="bg-zinc-900/50 border-zinc-800 focus:border-orange-500/50 h-11"
-                />
-                <FieldError
-                  className="text-xs text-red-500"
-                  errors={field.state.meta.errors}
-                />
-              </Field>
-            )}
-          </form.Field>
-
-          {/* Image Upload */}
-          <form.Field name="image">
-            {(field) => (
-              <Field className="space-y-2">
-                <FieldLabel className="text-zinc-300 flex items-center gap-2">
-                  <ImageIcon size={14} className="text-orange-500" /> Shop
-                  Banner Image
-                </FieldLabel>
-
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="relative group cursor-pointer"
-                >
-                  {preview ? (
-                    <div className="relative w-full h-48 rounded-xl overflow-hidden border border-zinc-700">
-                      <img
-                        src={preview}
-                        alt="preview"
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <p className="text-white text-xs font-medium">
-                          Click to change image
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-48 flex flex-col items-center justify-center bg-zinc-900/50 border-2 border-dashed border-zinc-800 rounded-xl hover:border-orange-500/40 hover:bg-zinc-900 transition-all">
-                      <UploadCloud className="text-zinc-600 mb-2" size={32} />
-                      <p className="text-zinc-500 text-sm">
-                        Click to upload shop banner
-                      </p>
-                      <p className="text-zinc-600 text-[10px] mt-1 uppercase tracking-widest">
-                        JPG, PNG up to 2MB
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  className="hidden"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    field.handleChange(file);
-                    setPreview(URL.createObjectURL(file));
-                  }}
-                />
-                <FieldError
-                  className="text-xs text-red-500"
-                  errors={field.state.meta.errors}
-                />
-              </Field>
-            )}
-          </form.Field>
-        </FieldGroup>
-
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
-            <Button
-              type="submit"
-              disabled={!canSubmit || isSubmitting}
-              className="w-full h-12 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-900/20 active:scale-[0.98]"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                "Submit Application"
-              )}
-            </Button>
+              </div>
+              <FieldError className="text-[10px] font-bold text-red-500 uppercase tracking-tighter px-1" errors={field.state.meta.errors} />
+            </div>
           )}
-        />
-      </form>
-    </div>
+        </form.Field>
+
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           {/* Phone */}
+           <form.Field name="phone">
+             {(field) => (
+               <div className="space-y-2">
+                 <FieldLabel className="text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 ml-1">Contact Phone</FieldLabel>
+                 <div className="relative group">
+                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-orange-500 transition-colors" size={18} />
+                   <Input
+                     value={field.state.value}
+                     onChange={(e) => field.handleChange(e.target.value)}
+                     placeholder="+1 (555) 000-0000"
+                     className="pl-12 bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 h-14 rounded-2xl font-medium"
+                   />
+                 </div>
+               </div>
+             )}
+           </form.Field>
+
+           
+           <form.Field name="address">
+             {(field) => (
+               <div className="space-y-2">
+                 <FieldLabel className="text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 ml-1">Location</FieldLabel>
+                 <div className="relative group">
+                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-orange-500 transition-colors" size={18} />
+                   <Input
+                     value={field.state.value}
+                     onChange={(e) => field.handleChange(e.target.value)}
+                     placeholder="Street, City"
+                     className="pl-12 bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 h-14 rounded-2xl font-medium"
+                   />
+                 </div>
+               </div>
+             )}
+           </form.Field>
+        </div>
+
+        
+        <form.Field name="image">
+          {(field) => (
+            <div className="space-y-2">
+              <FieldLabel className="text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 ml-1">Banner Image</FieldLabel>
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="relative group cursor-pointer overflow-hidden rounded-[2rem] transition-all"
+              >
+                {preview ? (
+                  <div className="relative w-full h-56 border-2 border-orange-500/20">
+                    <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                       <Button variant="secondary" size="sm" className="rounded-full">Change Photo</Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-56 flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-900/50 border-2 border-dashed border-zinc-200 dark:border-zinc-800 group-hover:border-orange-500/50 group-hover:bg-orange-500/5 transition-all">
+                    <div className="h-14 w-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 mb-4 group-hover:scale-110 transition-transform">
+                      <UploadCloud size={28} />
+                    </div>
+                    <p className="text-zinc-900 dark:text-zinc-200 font-bold">Upload Shop Banner</p>
+                    <p className="text-zinc-500 text-xs mt-1">High resolution PNG or JPG (Max 2MB)</p>
+                  </div>
+                )}
+              </div>
+              <input type="file" ref={fileInputRef} className="hidden" accept="image/*" 
+                     onChange={(e) => {
+                       const file = e.target.files?.[0];
+                       if (file) { field.handleChange(file); setPreview(URL.createObjectURL(file)); }
+                     }} 
+              />
+            </div>
+          )}
+        </form.Field>
+      </FieldGroup>
+
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <Button
+            type="submit"
+            disabled={!canSubmit || isSubmitting}
+            className="w-full h-16 bg-orange-500 hover:bg-orange-600 text-white font-black text-lg rounded-2xl transition-all shadow-xl shadow-orange-500/20 active:scale-[0.98] disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Launch Your Store"
+            )}
+          </Button>
+        )}
+      />
+    </form>
+  </div>
   );
 }

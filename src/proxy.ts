@@ -63,8 +63,7 @@ export async function proxy(request: NextRequest) {
     }
     if (
       user.role === Role.CUSTOMER &&
-      pathname.startsWith("/dashboard") &&
-      !pathname.startsWith("/dashboard/my-order")
+      pathname.startsWith("/dashboard")
     ) {
       return NextResponse.redirect(new URL("/dashboard/my-order", request.url));
     }
