@@ -32,11 +32,9 @@ export default function HowItWorks() {
 
   return (
     <section className="py-24 bg-zinc-50 dark:bg-[#080808] transition-colors duration-500 relative overflow-hidden">
-
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-75 bg-orange-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
         <div className="text-center max-w-2xl mx-auto mb-20">
           <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white tracking-tight mb-6">
             Ordering made{" "}
@@ -48,27 +46,21 @@ export default function HowItWorks() {
           </p>
         </div>
 
-
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-
           <div className="hidden lg:block absolute top-24 left-[25%] right-[25%] h-0.5 border-t-2 border-dashed border-zinc-200 dark:border-zinc-800 pointer-events-none" />
 
           {steps.map((step, index) => (
             <div key={step.id} className="group relative">
-
               <div className="relative flex flex-col items-center text-center space-y-6 p-8 rounded-[2.5rem] bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/50 hover:border-orange-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/5 group-hover:-translate-y-2">
-
                 <span className="absolute top-4 right-8 text-7xl font-black text-zinc-100 dark:text-zinc-800/30 select-none group-hover:text-orange-500/10 transition-colors">
                   {step.id}
                 </span>
-
 
                 <div
                   className={`relative h-20 w-20 rounded-2xl ${step.color} flex items-center justify-center transition-transform duration-500 group-hover:rotate-10 group-hover:scale-110`}
                 >
                   {step.icon}
                 </div>
-
 
                 <div className="space-y-3">
                   <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">
@@ -86,7 +78,6 @@ export default function HowItWorks() {
             </div>
           ))}
         </div>
-
 
         <div className="mt-20 text-center">
           <button className="inline-flex items-center gap-2 text-zinc-900 dark:text-white font-bold group hover:text-orange-500 transition-colors">
