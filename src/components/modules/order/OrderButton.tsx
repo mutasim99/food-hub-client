@@ -77,13 +77,13 @@ export default function OrderButton({ meal }: { meal: Meal }) {
 
       {isOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-          {/* Overlay */}
+  
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in duration-300"
             onClick={closeModal}
           />
 
-          {/* Modal Content */}
+      
           <div className="relative bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
             <button
               onClick={closeModal}
@@ -113,7 +113,7 @@ export default function OrderButton({ meal }: { meal: Meal }) {
               className="space-y-8"
             >
               <FieldGroup className="space-y-6">
-                {/* Address Field */}
+
                 <form.Field name="address">
                   {(field) => (
                     <div className="space-y-2">
@@ -141,7 +141,7 @@ export default function OrderButton({ meal }: { meal: Meal }) {
                   )}
                 </form.Field>
 
-                {/* Quantity Field (Fixed Visibility) */}
+
                 <form.Field name="qty">
                   {(field) => (
                     <div className="space-y-2">

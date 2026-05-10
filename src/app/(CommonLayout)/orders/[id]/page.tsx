@@ -1,7 +1,8 @@
 import { getOrderById } from "@/actions/order.action";
 import CustomerOrderDetails from "@/components/modules/dashboard/Customer/OrderDetails";
+import { notFound } from "next/navigation";
 
-export default async function OrderDetailsPage({
+export default async function OrderDetails({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -11,11 +12,11 @@ export default async function OrderDetailsPage({
   const order = res?.data;
 
   if (!order) {
-    return <h2 className="text-xl mt-10 text-center">Order not found</h2>;
+    notFound();
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#080808] transition-colors duration-500">
       <CustomerOrderDetails order={order} />
     </div>
   );

@@ -3,19 +3,20 @@
 import { cancelOrder } from "@/actions/order.action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   MapPin,
   Package,
   Calendar,
-  CreditCard,
   XCircle,
-  CheckCircle2,
+  ChevronLeft,
+  Clock,
 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import ReviewForm from "../../home/ReviewForm";
+import Link from "next/link";
 
 export default function CustomerOrderDetails({ order }: { order: any }) {
   const isDisabled =
@@ -32,72 +33,99 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-slate-200 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <h1 className="text-4xl font-bold text-white tracking-tight">
-                Order Details
-              </h1>
-              <Badge
-                className={`px-3 py-1 rounded-md uppercase text-[10px] font-bold ${
-                  order.status === "DELIVERED"
-                    ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/50"
-                    : order.status === "CANCELLED"
-                    ? "bg-red-500/20 text-red-400 border-red-500/50"
-                    : "bg-orange-500/20 text-orange-400 border-orange-500/50"
-                }`}
-                variant="outline"
-              >
-                {order.status}
-              </Badge>
-            </div>
-            <div className="flex flex-wrap items-center text-slate-400 gap-y-2 gap-x-6 text-sm">
-              <span className="flex items-center gap-2">
-                <Package size={16} className="text-orange-500" /> {order.id}
-              </span>
-              <span className="flex items-center gap-2">
-                <Calendar size={16} className="text-orange-500" />{" "}
-                {new Date(order.createdAt).toLocaleDateString(undefined, {
-                  dateStyle: "long",
-                })}
-              </span>
-            </div>
-          </div>
+    <div className="p-4 md:p-8 lg:p-12">
+      <div className="max-w-6xl mx-auto space-y-8">
+
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <Link
+            href="/dashboard/customer/orders"
+            className="flex items-center gap-2 text-zinc-500 hover:text-orange-500 transition-colors text-sm font-medium w-fit"
+          >
+            <ChevronLeft size={16} /> Back to Orders
+          </Link>
 
           {!isDisabled && (
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={handleCancel}
-              className="border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white transition-all bg-transparent"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all rounded-xl font-bold"
             >
-              <XCircle className="mr-2 h-4 w-4" /> Cancel Order
+              <XCircle className="mr-2 h-4 w-4" /> Cancel This Order
             </Button>
           )}
         </div>
 
+        {/* Header Section */}
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] p-8 shadow-sm">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl md:text-4xl font-black text-zinc-900 dark:text-white tracking-tight">
+                  Order Details
+                </h1>
+                <Badge
+                  className={`rounded-full px-4 py-1 text-[10px] font-black tracking-widest uppercase border-2 ${
+                    order.status === "DELIVERED"
+                      ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                      : order.status === "CANCELLED"
+                      ? "bg-red-500/10 text-red-600 border-red-500/20"
+                      : "bg-orange-500/10 text-orange-600 border-orange-500/20 animate-pulse"
+                  }`}
+                  variant="outline"
+                >
+                  {order.status}
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-6 text-zinc-500 dark:text-zinc-400 text-sm font-medium">
+                <span className="flex items-center gap-2">
+                  <Package size={16} className="text-orange-500" /> ID:{" "}
+                  <span className="text-zinc-900 dark:text-zinc-200">
+                    {order.id.slice(-8)}
+                  </span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <Calendar size={16} className="text-orange-500" />
+                  {new Date(order.createdAt).toLocaleDateString(undefined, {
+                    dateStyle: "medium",
+                  })}
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+              <p className="text-xs text-zinc-500 uppercase font-black tracking-tighter mb-1">
+                Total Paid
+              </p>
+              <p className="text-3xl font-black text-orange-500">
+                Tk {order.total}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left: Items List */}
+
           <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-[#141414] border-slate-800 shadow-2xl">
-              <CardHeader className="border-b border-slate-800">
-                <CardTitle className="text-lg font-medium text-white">
-                  Items Summary
-                </CardTitle>
-              </CardHeader>
+            <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 rounded-[2rem] overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30">
+                <h3 className="font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                  Items Summary{" "}
+                  <span className="text-xs font-normal text-zinc-500">
+                    ({order.items.length} items)
+                  </span>
+                </h3>
+              </div>
               <CardContent className="p-0">
                 {order.items.map((item: any, index: number) => (
                   <div
                     key={item.id}
-                    className={`p-6 flex items-center gap-6 ${
+                    className={`p-6 flex flex-col sm:flex-row items-center gap-6 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/20 ${
                       index !== order.items.length - 1
-                        ? "border-b border-slate-800/50"
+                        ? "border-b border-zinc-100 dark:border-zinc-800"
                         : ""
                     }`}
                   >
-                    <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-slate-800 border border-slate-700 shrink-0">
+                    <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-inner">
                       <Image
                         src={item.meal.image}
                         alt={item.meal.name}
@@ -105,103 +133,84 @@ export default function CustomerOrderDetails({ order }: { order: any }) {
                         className="object-cover"
                       />
                     </div>
-                    <div className="flex-1 flex justify-between items-center">
-                      <div>
-                        <h4 className="font-bold text-lg text-white">
-                          {item.meal.name}
-                        </h4>
-                        <p className="text-slate-400 text-sm">
-                          Tk {item.meal.price}{" "}
-                          <span className="mx-2 text-slate-600">×</span>{" "}
-                          {item.qty}
-                        </p>
-                      </div>
-                      <div className="text-right text-orange-500 font-bold text-lg">
-                        Tk {item.price * item.qty}
-                      </div>
+                    <div className="flex-1 text-center sm:text-left">
+                      <h4 className="font-black text-xl text-zinc-900 dark:text-white">
+                        {item.meal.name}
+                      </h4>
+                      <p className="text-zinc-500 font-medium mt-1">
+                        Tk {item.meal.price}{" "}
+                        <span className="mx-2 text-zinc-300">×</span> {item.qty}
+                      </p>
                     </div>
-                    {order.status === "DELIVERED" && (
-                      <div className="ml-4">
+                    <div className="flex flex-col items-center sm:items-end gap-3">
+                      <span className="text-xl font-black text-orange-500">
+                        Tk {item.price * item.qty}
+                      </span>
+                      {order.status === "DELIVERED" && (
                         <ReviewForm mealId={item.meal.id} />
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 ))}
               </CardContent>
             </Card>
           </div>
 
-          {/* Right: Payment & Shipping */}
-          <div className="space-y-6">
-            {/* Payment Summary */}
-            <Card className="bg-[#141414] border-slate-800 shadow-xl overflow-hidden relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-orange-500" />
-              <CardContent className="p-6 pt-8">
-                <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <CreditCard size={14} className="text-orange-500" /> Payment
-                  Details
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Subtotal</span>
-                    <span className="text-white">Tk {order.total}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Delivery Fee</span>
-                    <span className="text-emerald-400 font-medium text-xs bg-emerald-500/10 px-2 py-0.5 rounded">
-                      FREE
-                    </span>
-                  </div>
-                  <Separator className="bg-slate-800" />
-                  <div className="flex justify-between items-center pt-2">
-                    <span className="text-white font-medium">Total Amount</span>
-                    <span className="text-2xl font-bold text-orange-500">
-                      Tk {order.total}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Shipping & Timeline */}
-            <Card className="bg-[#141414] border-slate-800 shadow-xl">
-              <CardContent className="p-6 space-y-8">
-                <div>
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <MapPin size={14} className="text-orange-500" /> Shipping
-                    Address
-                  </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed bg-slate-800/30 p-3 rounded-lg border border-slate-800">
-                    {order.address}
+          <div className="space-y-6">
+            {/* Delivery Info */}
+            <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 rounded-[2rem] p-6 shadow-sm">
+              <h3 className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                <MapPin size={14} className="text-orange-500" /> Shipping Info
+              </h3>
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
+                <p className="text-zinc-700 dark:text-zinc-300 text-sm font-semibold leading-relaxed">
+                  {order.address}
+                </p>
+              </div>
+
+              <Separator className="my-6 bg-zinc-100 dark:bg-zinc-800" />
+
+              <h3 className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                <Clock size={14} className="text-orange-500" /> Timeline
+              </h3>
+              <div className="space-y-6 relative ml-2 border-l-2 border-zinc-100 dark:border-zinc-800 pl-6">
+                <div className="relative">
+                  <div className="absolute -left-7.75 top-0 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white dark:border-zinc-900 shadow-lg shadow-emerald-500/20" />
+                  <p className="text-sm font-bold text-zinc-900 dark:text-white">
+                    Order Placed
+                  </p>
+                  <p className="text-[11px] text-zinc-500 font-medium">
+                    {new Date(order.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
-
-                <div>
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">
-                    Status History
-                  </h3>
-                  <div className="space-y-6 relative before:absolute before:left-1.75 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-800">
-                    <div className="relative pl-8">
-                      <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] border-2 border-[#141414]" />
-                      <p className="text-sm font-semibold text-white">
-                        Order Placed
-                      </p>
-                      <p className="text-[11px] text-slate-500">
-                        {new Date(order.createdAt).toLocaleTimeString()}
-                      </p>
-                    </div>
-                    {order.status === "CANCELLED" && (
-                      <div className="relative pl-8">
-                        <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-red-500 border-2 border-[#141414]" />
-                        <p className="text-sm font-semibold text-red-400">
-                          Cancelled
-                        </p>
-                      </div>
-                    )}
+                {order.status === "CANCELLED" && (
+                  <div className="relative">
+                    <div className="absolute -left-7.75 top-0 w-4 h-4 rounded-full bg-red-500 border-4 border-white dark:border-zinc-900" />
+                    <p className="text-sm font-bold text-red-500">Cancelled</p>
                   </div>
-                </div>
-              </CardContent>
+                )}
+              </div>
             </Card>
+
+            <div className="p-6 rounded-[2rem] bg-orange-500/5 border border-orange-500/10 dark:bg-orange-500/10">
+              <p className="text-xs font-black text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-2">
+                Need help?
+              </p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 font-medium">
+                If you have issues with your order, please contact our 24/7
+                support.
+              </p>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-orange-500 font-bold mt-2"
+              >
+                Contact Support
+              </Button>
+            </div>
           </div>
         </div>
       </div>
