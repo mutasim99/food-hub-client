@@ -14,6 +14,22 @@ interface ServiceOption {
 const sessionUrl = env.AUTH_URL;
 const apiUrl = env.BACKEND_URL;
 export const userService = {
+  getAdminStats: async function () {
+    try {
+      const cookieStore = await cookies();
+      const url = new URL(`${apiUrl}/admin-stats`);
+      const res = await fetch(url.toString(), {
+        headers: {
+          cookie: cookieStore.toString(),
+        },
+        cache: "no-cache",
+      });
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (error) {
+      return { data: null, error: "Failed to retrieve stats" };
+    }
+  },
   getSession: async function () {
     try {
       const cookieStore = await cookies();
@@ -21,7 +37,7 @@ export const userService = {
         headers: {
           cookie: cookieStore.toString(),
         },
-        credentials:"include",
+        credentials: "include",
         cache: "no-cache",
       });
       const session = await res.json();

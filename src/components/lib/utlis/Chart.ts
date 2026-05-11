@@ -3,6 +3,7 @@ export const prepareGrowthData = (users: any[]) => {
       const date = new Date(user.createdAt).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
+        timeZone:"Asia/Dhaka"
       });
   
       acc[date] = (acc[date] || 0) + 1;

@@ -1,6 +1,11 @@
 "use server";
 import { userService } from "@/services/user.service";
 
+
+export const getAdminStats = async () => {
+  return await userService.getAdminStats();
+}
+
 export const getSession = async () => {
   return await userService.getSession();
 };

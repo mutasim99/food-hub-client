@@ -21,7 +21,6 @@ export default async function MyOrderPage() {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] transition-colors duration-500 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20">
@@ -59,11 +58,10 @@ export default async function MyOrderPage() {
               asChild
               className="bg-orange-500 hover:bg-orange-600 text-white px-10 h-14 rounded-2xl shadow-lg shadow-orange-500/20 transition-all hover:scale-105 active:scale-95"
             >
-              <Link href="/browse-meals">Explore the Menu</Link>
+              <Link href="/meals">Explore the Menu</Link>
             </Button>
           </div>
         ) : (
-
           <div className="grid gap-6">
             {orders.map((order: any) => (
               <Card
@@ -71,7 +69,6 @@ export default async function MyOrderPage() {
                 className="bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/50 overflow-hidden group hover:border-orange-500/40 transition-all duration-500 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-orange-500/5"
               >
                 <CardContent className="p-0">
-
                   <div className="flex flex-row items-center justify-between p-6 border-b border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20">
                     <div className="flex items-center gap-4">
                       <div className="hidden sm:flex h-12 w-12 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 items-center justify-center text-orange-500 shadow-sm">
@@ -88,7 +85,6 @@ export default async function MyOrderPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-
                       <div className="hidden sm:block">
                         {order.status === "DELIVERED" ? (
                           <CheckCircle2
@@ -116,10 +112,8 @@ export default async function MyOrderPage() {
                     </div>
                   </div>
 
-
                   <div className="p-6 md:p-8 flex flex-col lg:flex-row gap-8 items-center lg:justify-between">
                     <div className="flex flex-col sm:flex-row items-center gap-6 w-full lg:w-auto">
-
                       <div className="flex -space-x-4 hover:space-x-1 transition-all duration-300">
                         {order.items
                           .slice(0, 3)

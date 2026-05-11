@@ -1,5 +1,5 @@
 import { getCategory } from "@/actions/category.action";
-import { getAllUser } from "@/actions/user.action";
+import { getAdminStats, getAllUser } from "@/actions/user.action";
 import { prepareGrowthData } from "@/components/lib/utlis/Chart";
 import { StatCard } from "@/components/lib/utlis/StatCard";
 import ChartWrapper from "@/components/modules/dashboard/admin/ChartWarper";
@@ -10,19 +10,12 @@ import {
   UtensilsCrossed,
   Layers,
   TrendingUp,
-  Plus,
 } from "lucide-react";
 
 export default async function AdminDashboardPage() {
-  const usersRes = await getAllUser();
-  const categoryRes = await getCategory();
-
-  const users = usersRes?.data?.data || [];
-  const categories = categoryRes?.data?.data || [];
-
-  const customerCount = users.filter((u: any) => u.role === "CUSTOMER").length;
-  const providerCount = users.filter((u: any) => u.role === "PROVIDER").length;
-  const growthData = prepareGrowthData(users);
+  const res = await getAdminStats();
+  const stats = res?.data?.data;
+  const growthData = prepareGrowthData(stats?.totalUsers ?? []);
 
   return (
     <div className="flex-1 space-y-8 p-8 pt-6 animate-in fade-in duration-700">
@@ -38,7 +31,7 @@ export default async function AdminDashboardPage() {
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Total Users"
-          value={users.length}
+          value={stats?.total ?? 0}
           icon={Users}
           colorClass="text-blue-500"
           bgClass="bg-blue-500/10"
@@ -46,7 +39,7 @@ export default async function AdminDashboardPage() {
         />
         <StatCard
           label="Customers"
-          value={customerCount}
+          value={stats?.customers ?? 0}
           icon={UserCheck}
           colorClass="text-orange-500"
           bgClass="bg-orange-500/10"
@@ -54,7 +47,7 @@ export default async function AdminDashboardPage() {
         />
         <StatCard
           label="Providers"
-          value={providerCount}
+          value={stats?.providers ?? 0}
           icon={UtensilsCrossed}
           colorClass="text-emerald-500"
           bgClass="bg-emerald-500/10"
@@ -62,7 +55,7 @@ export default async function AdminDashboardPage() {
         />
         <StatCard
           label="Categories"
-          value={categories.length}
+          value={stats?.categories ?? 0}
           icon={Layers}
           colorClass="text-purple-500"
           bgClass="bg-purple-500/10"
